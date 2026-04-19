@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>초등표 made by 닉스</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+h1{font-size:28px;color:#eee;margin-bottom:8px;text-align:center}
+.subtitle{font-size:13px;color:#888;margin-bottom:40px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;width:100%;max-width:900px}
+.card{background:#1e1e30;border:1px solid #333;border-radius:12px;padding:24px;cursor:pointer;text-decoration:none;display:block;transition:border-color 0.15s,background 0.15s;position:relative}
+.card:hover{border-color:#5dcff5;background:#252540}
+.card-title{font-size:18px;font-weight:700;color:#eee;margin-bottom:8px}
+.card-desc{font-size:12px;color:#888;line-height:1.6}
+.card-badge{position:absolute;top:16px;right:16px;font-size:10px;padding:3px 8px;border-radius:10px;background:rgba(93,207,245,0.15);color:#5dcff5;border:1px solid rgba(93,207,245,0.3)}
+</style>
+</head>
+<body>
+<h1>초등표 made by 닉스</h1>
+<p class="subtitle">원하는 메뉴를 선택하세요</p>
+<div class="grid">
+  <a href="./tier.html" class="card">
+    <span class="card-badge">LIVE</span>
+    <div class="card-title">초월 등급표</div>
+    <div class="card-desc">속성별 초월 드래곤 등급 정보<br>속성 · 타입 필터 지원</div>
+  </a>
+  <a href="./dex.html" class="card">
+    <span class="card-badge">LIVE</span>
+    <div class="card-title">드래곤 도감</div>
+    <div class="card-desc">전체 697마리 드래곤 정보<br>속성 · 타입 · 단계 · 코드화 필터 지원</div>
+  </a>
+  <a href="./sss.html" class="card">
+    <span class="card-badge">LIVE</span>
+    <div class="card-title">SSS 랭킹</div>
+    <div class="card-desc">Lv.45 / Lv.21 SSS 드래곤 랭킹<br>속성 필터 지원</div>
+  </a>
+</div>
+</body>
+</html>
