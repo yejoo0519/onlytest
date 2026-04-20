@@ -868,10 +868,11 @@ function render(){
     tr.className=`e-row-${d.elem}`;
     const sssIconUrl=sssElemIcons[d.elem]||'';
     const sssIconCell=sssIconUrl?`<img src="${sssIconUrl}" class="dex-elem-icon" alt="${d.elem}">`:`<div class="dex-elem-icon-placeholder"></div>`;
+    const sssImgCell=sssImgMap[d.kor]?`<img src="${sssImgMap[d.kor]}" class="dragon-img" alt="${d.kor}">`:`<div class="img-placeholder"></div>`;
     tr.innerHTML=`
       <td class="td-mobile row1">
         <span style="font-weight:700;color:#5dcff5;min-width:24px;text-align:center">${d.rank}</span>
-        <div class="img-placeholder" style="flex-shrink:0"></div>
+        ${sssImgCell}
         <span style="font-size:12px;font-weight:500;flex:1">${d.kor}</span>
         ${sssIconCell}
         <span style="font-size:11px;color:#aaa">Lv.${d.lv}</span>
@@ -885,7 +886,7 @@ function render(){
         <div class="row2-cell"><span class="r2-label">성장</span><span class="r2-val" style="color:#aaa">${d.grow}</span></div>
       </td>
       <td class="td-pc center" style="font-weight:700;color:#5dcff5">${d.rank}</td>
-      <td class="td-pc center"><div class="img-placeholder"></div></td>
+      <td class="td-pc center">${sssImgCell}</td>
       <td class="td-pc left" style="font-size:12px;font-weight:500;white-space:nowrap">${d.kor}</td>
       <td class="td-pc">${sssIconCell}</td>
       <td class="td-pc" style="font-size:11px;color:#aaa">Lv.${d.lv}</td>
