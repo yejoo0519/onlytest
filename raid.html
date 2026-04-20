@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>디데락 조합</title>
+<title>레이드 조합기</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
@@ -100,6 +100,11 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 .check-warn{color:#f5c842;font-size:14px}
 
 
+
+.main-tab{padding:8px 20px;font-size:13px;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;color:#888;cursor:pointer;font-family:inherit;margin-bottom:-1px}
+.main-tab:hover{color:#ccc}
+.main-tab.active{color:#5dcff5;border-bottom:2px solid #5dcff5}
+
 .boss-btn{padding:8px 20px;border-radius:8px;border:1px solid #444;background:#2a2a3e;color:#aaa;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
 .boss-btn:hover{border-color:#555;color:#eee}
 .boss-btn.active{background:#4a90d9;color:#fff;border-color:#4a90d9}
@@ -117,7 +122,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   <a href="./raid.html" class="tab-btn active">레이드 조합기</a>
 </div>
 
-<h1>디데락 자동조합</h1>
+<div style="display:flex;gap:0;border-bottom:1px solid #333;margin-bottom:16px">
+  <button class="main-tab active" id="main-tab-raid" onclick="switchMainTab('raid')">조합기</button>
+  <button class="main-tab" id="main-tab-daily" onclick="switchMainTab('daily')">일반 보스</button>
+</div>
+
+<div id="section-raid">
+<h1>레이드 조합기</h1>
 
 <!-- 보스 선택 -->
 <div class="section">
@@ -130,7 +141,7 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 패턴 정보 -->
 <div class="section">
-  <div class="section-title">보스 패턴</div>
+  <div class="section-title">보스 패턴 (전체 파훼 목표)</div>
   <div class="pattern-grid" id="pattern-grid">
     <!-- 디멘션 패턴 -->
     <div class="pattern-item boss-dimension">
@@ -200,18 +211,16 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     <div class="pattern-item boss-deathlock" style="display:none">
       <div>
         <div class="pattern-name">(5) 방어력 1.5배 버프</div>
-        <div class="pattern-desc">아군의 방어력 1.5배 상승</div>
+        <div class="pattern-desc">아군의 방어력 1.5배 상승 (★★☆)</div>
         <div class="pattern-cond">땅속성 2마리 · 방어타입 2마리</div>
       </div>
     </div>
   </div>
 </div>
 
-</div>
-
 <!-- 플레이어 드래곤 입력 -->
 <div class="section">
-  <div class="section-title">플레이어별 드래곤 입력 (드롭박스 제한으로, 검색하여 입력해주세요.)</div>
+  <div class="section-title">플레이어별 드래곤 입력 (각 3마리 이상 입력 권장)</div>
   <div class="players-grid" id="players-grid"></div>
 </div>
 
@@ -228,6 +237,128 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   <div id="result-check"></div>
   <div id="result-fail-msg"></div>
 </div>
+
+</div><!-- /section-raid -->
+<div id="section-daily" style="display:none">
+<h1 style="margin-bottom:16px">일반 보스 패턴</h1>
+
+<!-- 월요일 -->
+<div class="section">
+  <div class="section-title">월요일 — 모스벨</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 달의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 10000~11000</div>
+  <div class="pattern-grid">
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(1) 피격 회피율 증가</div>
+        <div class="pattern-desc">피격당 회피율 3% 증가</div>
+        <div class="pattern-cond">불속성 3마리 · 공격타입 3마리</div>
+      </div>
+    </div>
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(2) 강력한 광역 공격</div>
+        <div class="pattern-desc">3턴당 강력한 광역 공격</div>
+        <div class="pattern-cond">바람속성 3마리 · 체공타입 3마리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 화요일 -->
+<div class="section">
+  <div class="section-title">화요일 — 잉카라</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 불의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 10000~11000</div>
+  <div class="pattern-grid">
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(1) 광역 3배 피해</div>
+        <div class="pattern-desc">기본공격 시 랜덤 4마리에 3배 피해</div>
+        <div class="pattern-cond">물속성 3마리 · 중립타입 3마리</div>
+      </div>
+    </div>
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(2) 광역 2배 피해</div>
+        <div class="pattern-desc">기본공격 시 랜덤 3마리에 2배 피해</div>
+        <div class="pattern-cond">땅속성 3마리 · 공격타입 3마리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 수요일 -->
+<div class="section">
+  <div class="section-title">수요일 — 타우킹</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 물의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 7000</div>
+  <div class="pattern-grid">
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(1) 체력 회복 + 광역 전환</div>
+        <div class="pattern-desc">공격 시 체력 회복 + 모든 공격이 광역피해로 전환</div>
+        <div class="pattern-cond">어둠속성 3마리 · 체공타입 3마리</div>
+      </div>
+    </div>
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(2) 체력 전회복 재전투</div>
+        <div class="pattern-desc">체력 소진 시 전부 회복 후 재전투</div>
+        <div class="pattern-cond">황혼속성 3마리 · 체력타입 3마리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 목요일 -->
+<div class="section">
+  <div class="section-title">목요일 — 골락</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 땅의 정수, 골락의 알 C~A &nbsp;|&nbsp; 1인 최소 EVAL: 11000~12000</div>
+  <div class="pattern-grid">
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(1) 70턴 불사</div>
+        <div class="pattern-desc">체력 소진 시 70턴 동안 사망하지 않고 전투</div>
+        <div class="pattern-cond">여명속성 3마리 · 방어타입 3마리</div>
+      </div>
+    </div>
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(2) 피해 70% 무시</div>
+        <div class="pattern-desc">피격 시 70% 데미지 무시</div>
+        <div class="pattern-cond">빛속성 3마리 · 공방타입 3마리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 금요일 -->
+<div class="section">
+  <div class="section-title">금요일 — 카이저 번</div>
+  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 태양의 정수, 카이저 번의 알 C~A &nbsp;|&nbsp; 1인 최소 EVAL: 11000~12000</div>
+  <div class="pattern-grid">
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(1) 피해 반사</div>
+        <div class="pattern-desc">체력 50% 이하 시 받은 피해의 300%를 랜덤 5마리에 반사</div>
+        <div class="pattern-cond">악몽속성 3마리 · 중립타입 3마리</div>
+      </div>
+    </div>
+    <div class="pattern-item">
+      <div>
+        <div class="pattern-name">(2) 크리·회피·방어 봉인</div>
+        <div class="pattern-desc">이번 전투의 모든 아군 크리티컬·회피·방어 봉인</div>
+        <div class="pattern-cond">빛속성 3마리 · 체방타입 3마리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 토요일 -->
+<div class="section">
+  <div class="section-title">토요일 — 랜덤 보스</div>
+  <div style="font-size:11px;color:#888;margin-bottom:4px">월~금 보스 중 랜덤 1마리 등장 · 공략 방법 동일</div>
+</div>
+
+</div><!-- /section-daily -->
 
 <script>
 const allDragons=[
@@ -930,6 +1061,15 @@ const allDragons=[
 {n:"블라드",e:"악몽",t:"HP",ad:true,tr:true}
 ];
 
+
+
+function switchMainTab(tab) {
+  document.getElementById('section-raid').style.display = tab==='raid' ? '' : 'none';
+  document.getElementById('section-daily').style.display = tab==='daily' ? '' : 'none';
+  document.getElementById('main-tab-raid').classList.toggle('active', tab==='raid');
+  document.getElementById('main-tab-daily').classList.toggle('active', tab==='daily');
+  if(tab==='daily') document.getElementById('result').style.display='none';
+}
 
 const BOSS_PATTERNS = {
   dimension: [
