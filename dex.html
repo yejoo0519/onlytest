@@ -1764,7 +1764,8 @@ function render(){
 
     const cdCls = d.cd==="Yes"?"cd-yes":d.cd==="No"?"cd-no":"cd-cs";
 
-    const imgCell=`<div class="img-placeholder"></div>`;
+    const imgUrl=dexImgMap[d.n]||'';
+    const imgCell=imgUrl?`<img src="${imgUrl}" class="dragon-img" alt="${d.n}">`:`<div class="img-placeholder"></div>`;
     const dexIconUrl=dexElemIcons[d.e]||'';
     const iconCell=dexIconUrl?`<img src="${dexIconUrl}" class="dex-elem-icon" alt="${d.e}">`:`<div class="dex-elem-icon-placeholder"></div>`;
 
