@@ -114,11 +114,14 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 #section-daily{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px}
 #section-daily h1{grid-column:1/-1}
 #section-daily .section:last-child{grid-column:1/-1}
-.boss-section{position:relative;overflow:hidden}
-.boss-section .boss-bg{position:absolute;right:8px;bottom:0;height:85%;width:35%;background-size:contain;background-repeat:no-repeat;background-position:right bottom;opacity:0.7;pointer-events:none}
+.boss-section{position:relative}
+.boss-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.boss-portrait{width:56px;height:56px;border-radius:10px;object-fit:contain;object-position:center;border:1px solid #444;flex-shrink:0;background:#1a1a2e}
+.boss-header-text .section-title{margin-bottom:2px}
 @media(max-width:600px){
   #section-daily{grid-template-columns:1fr!important}
   #section-daily .section:last-child{grid-column:auto}
+  .boss-portrait{width:48px;height:48px}
 }
 
 .fail-msg{background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:8px;padding:12px;font-size:12px;color:#ef5350;margin-top:8px}
@@ -256,9 +259,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 월요일 -->
 <div class="section boss-section">
-  <div class="boss-bg" style="background-image:url('https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/1.png')"></div>
-  <div class="section-title">월요일 — 모스벨</div>
-  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 달의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 10000~11000</div>
+  <div class="boss-header">
+    <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/1.png" class="boss-portrait" alt="월요일 — 모스벨">
+    <div class="boss-header-text">
+      <div class="section-title">월요일 — 모스벨</div>
+      <div style="font-size:11px;color:#888">드롭: 달의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 10000~11000</div>
+    </div>
+  </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
@@ -279,9 +286,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 화요일 -->
 <div class="section boss-section">
-  <div class="boss-bg" style="background-image:url('https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/2.png')"></div>
-  <div class="section-title">화요일 — 잉카라</div>
-  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 불의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 10000~11000</div>
+  <div class="boss-header">
+    <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/2.png" class="boss-portrait" alt="화요일 — 잉카라">
+    <div class="boss-header-text">
+      <div class="section-title">화요일 — 잉카라</div>
+      <div style="font-size:11px;color:#888">드롭: 불의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 10000~11000</div>
+    </div>
+  </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
@@ -302,9 +313,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 수요일 -->
 <div class="section boss-section">
-  <div class="boss-bg" style="background-image:url('https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/3.png')"></div>
-  <div class="section-title">수요일 — 타우킹</div>
-  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 물의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 7000</div>
+  <div class="boss-header">
+    <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/3.png" class="boss-portrait" alt="수요일 — 타우킹">
+    <div class="boss-header-text">
+      <div class="section-title">수요일 — 타우킹</div>
+      <div style="font-size:11px;color:#888">드롭: 물의 정수 &nbsp;|&nbsp; 1인 최소 EVAL: 7000</div>
+    </div>
+  </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
@@ -325,9 +340,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 목요일 -->
 <div class="section boss-section">
-  <div class="boss-bg" style="background-image:url('https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/4.png')"></div>
-  <div class="section-title">목요일 — 골락</div>
-  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 땅의 정수, 골락의 알 C~A &nbsp;|&nbsp; 1인 최소 EVAL: 11000~12000</div>
+  <div class="boss-header">
+    <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/4.png" class="boss-portrait" alt="목요일 — 골락">
+    <div class="boss-header-text">
+      <div class="section-title">목요일 — 골락</div>
+      <div style="font-size:11px;color:#888">드롭: 땅의 정수, 골락의 알 C~A &nbsp;|&nbsp; 1인 최소 EVAL: 11000~12000</div>
+    </div>
+  </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
@@ -348,9 +367,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 금요일 -->
 <div class="section boss-section">
-  <div class="boss-bg" style="background-image:url('https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/5.png')"></div>
-  <div class="section-title">금요일 — 카이저 번</div>
-  <div style="font-size:11px;color:#888;margin-bottom:10px">드롭: 태양의 정수, 카이저 번의 알 C~A &nbsp;|&nbsp; 1인 최소 EVAL: 11000~12000</div>
+  <div class="boss-header">
+    <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/5.png" class="boss-portrait" alt="금요일 — 카이저 번">
+    <div class="boss-header-text">
+      <div class="section-title">금요일 — 카이저 번</div>
+      <div style="font-size:11px;color:#888">드롭: 태양의 정수, 카이저 번의 알 C~A &nbsp;|&nbsp; 1인 최소 EVAL: 11000~12000</div>
+    </div>
+  </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
