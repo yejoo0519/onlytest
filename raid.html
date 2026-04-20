@@ -128,6 +128,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 }
 
 
+
+.info-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a90d9;color:#fff;font-size:10px;font-weight:700;cursor:pointer;margin-left:6px;position:relative;flex-shrink:0;vertical-align:middle}
+.info-tooltip{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:#1a1a2e;border:1px solid #4a90d9;border-radius:8px;padding:12px 14px;width:280px;font-size:11px;color:#ccc;line-height:1.8;z-index:200;white-space:normal;text-align:left}
+.info-tooltip::after{content:"";position:absolute;left:50%;transform:translateX(-50%);top:100%;border:6px solid transparent;border-top-color:#4a90d9}
+.info-icon:hover .info-tooltip{display:block}
+.info-tooltip b{color:#5dcff5}
+
 .fail-msg{background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:8px;padding:12px;font-size:12px;color:#ef5350;margin-top:8px}
 </style>
 </head>
@@ -242,7 +249,18 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 <!-- 플레이어 드래곤 입력 -->
 <div class="section">
-  <div class="section-title">플레이어별 드래곤 입력 (각 3마리 이상 입력 권장)</div>
+  <div class="section-title" style="display:flex;align-items:center">
+    플레이어별 드래곤 입력 (각 3마리 이상 입력 권장)
+    <span class="info-icon">i
+      <div class="info-tooltip">
+        <b>1.</b> 드래곤 도감 기준으로 데이터가 등록되어 있어, 줄임말은 인식하지 못합니다.<br>
+        &nbsp;&nbsp;&nbsp;✗ 고신, 드슬, 카룩<br>
+        &nbsp;&nbsp;&nbsp;✓ 엔젤, 페어리, 디멘<br><br>
+        <b>2.</b> 이름을 쉼표로 구분해 입력하면 한번에 등록됩니다.<br>
+        &nbsp;&nbsp;&nbsp;예) 고대신룡, 다크닉스, 엔젤
+      </div>
+    </span>
+  </div>
   <div class="players-grid" id="players-grid"></div>
 </div>
 
@@ -415,7 +433,7 @@ const allDragons=[
 {n:"식스 레그 혼 드래곤",e:"바람",t:"체력",ad:true,tr:true},
 {n:"청룡",e:"바람",t:"공격",ad:true,tr:true},
 {n:"파이어 드래곤",e:"불",t:"공격",ad:true,tr:true},
-{n:"번개고룡",e:"불",t:"체공",ad:true,tr:true},
+{n:"번개고룡",e:"불",t:"공격",ad:true,tr:true},
 {n:"라바 드래곤",e:"불",t:"체공",ad:false,tr:false},
 {n:"피닉스",e:"불",t:"공격",ad:true,tr:true},
 {n:"빙하고룡",e:"물",t:"공격",ad:true,tr:true},
