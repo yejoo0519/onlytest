@@ -125,6 +125,24 @@ h1{font-size:24px;margin-bottom:12px;color:#aaa}
 
 /* 테이블 */
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* 모바일 두줄 레이아웃 */
+/* PC: row1/row2 숨기고 기존 td 표시 */
+.td-pc{display:table-cell}
+.td-mobile{display:none}
+/* 모바일 */
+@media(max-width:600px){
+  .tbl-wrap table{min-width:0!important}
+  .tbl-wrap thead{display:none}
+  .tbl-wrap tbody tr{display:block;padding:8px;border-bottom:1px solid #2a2a3e}
+  .td-pc{display:none!important}
+  .td-mobile{display:flex!important}
+  .row1{align-items:center;gap:8px;margin-bottom:6px}
+  .row2{gap:0;justify-content:space-around;background:#252538;border-radius:6px;padding:5px 0}
+  .row2-cell{text-align:center;flex:1}
+  .row2-cell .r2-label{font-size:10px;color:#888;display:block}
+  .row2-cell .r2-val{font-size:11px;display:block}
+}
+
 .tbl-wrap table{width:100%;border-collapse:collapse;font-size:12px;background:transparent;min-width:520px}
 .tbl-wrap thead tr{background:#252538}
 .tbl-wrap th{padding:7px 8px;text-align:center;font-weight:500;color:#aaa;border-bottom:1px solid #333;white-space:nowrap;font-size:11px}
@@ -201,6 +219,7 @@ tr:hover td{background:#252540!important}
   <a href="./tier.html" class="tab-btn">초월 등급표</a>
   <a href="./dex.html" class="tab-btn">드래곤 도감</a>
   <a href="./sss.html" class="tab-btn active">SSS 랭킹</a>
+  <a href="./raid.html" class="tab-btn">레이드 조합기</a>
   
 </div>
 <h1 style="font-size:20px;color:#aaa;margin-bottom:12px">SSS 랭킹</h1>
@@ -666,17 +685,32 @@ function render(){
     const sssIconUrl=sssElemIcons[d.elem]||'';
     const sssIconCell=sssIconUrl?`<img src="${sssIconUrl}" class="dex-elem-icon" alt="${d.elem}">`:`<div class="dex-elem-icon-placeholder"></div>`;
     tr.innerHTML=`
-      <td style="font-weight:700;color:#5dcff5">${d.rank}</td>
-      <td class="center"><div class="img-placeholder"></div></td>
-      <td class="left" style="font-size:12px;font-weight:500;white-space:nowrap">${d.kor}</td>
-      <td>${sssIconCell}</td>
-      <td style="font-size:11px;color:#aaa">Lv.${d.lv}</td>
-      <td style="color:#66bb6a;font-size:11px">${d.hp}</td>
-      <td style="color:#ef5350;font-size:11px">${d.atk}</td>
-      <td style="color:#5dcff5;font-size:11px">${d.def}</td>
-      <td style="color:#f5c842;font-weight:700">${d.eval}</td>
-      <td style="font-size:11px;color:#aaa">${d.base}</td>
-      <td style="font-size:11px;color:#aaa">${d.grow}</td>`;
+      <td class="td-mobile row1">
+        <span style="font-weight:700;color:#5dcff5;min-width:24px;text-align:center">${d.rank}</span>
+        <div class="img-placeholder" style="flex-shrink:0"></div>
+        <span style="font-size:12px;font-weight:500;flex:1">${d.kor}</span>
+        ${sssIconCell}
+        <span style="font-size:11px;color:#aaa">Lv.${d.lv}</span>
+      </td>
+      <td class="td-mobile row2">
+        <div class="row2-cell"><span class="r2-label">HP</span><span class="r2-val" style="color:#66bb6a">${d.hp}</span></div>
+        <div class="row2-cell"><span class="r2-label">ATK</span><span class="r2-val" style="color:#ef5350">${d.atk}</span></div>
+        <div class="row2-cell"><span class="r2-label">DEF</span><span class="r2-val" style="color:#5dcff5">${d.def}</span></div>
+        <div class="row2-cell"><span class="r2-label">평가</span><span class="r2-val" style="color:#f5c842;font-weight:700">${d.eval}</span></div>
+        <div class="row2-cell"><span class="r2-label">기본</span><span class="r2-val" style="color:#aaa">${d.base}</span></div>
+        <div class="row2-cell"><span class="r2-label">성장</span><span class="r2-val" style="color:#aaa">${d.grow}</span></div>
+      </td>
+      <td class="td-pc center" style="font-weight:700;color:#5dcff5">${d.rank}</td>
+      <td class="td-pc center"><div class="img-placeholder"></div></td>
+      <td class="td-pc left" style="font-size:12px;font-weight:500;white-space:nowrap">${d.kor}</td>
+      <td class="td-pc">${sssIconCell}</td>
+      <td class="td-pc" style="font-size:11px;color:#aaa">Lv.${d.lv}</td>
+      <td class="td-pc" style="color:#66bb6a;font-size:11px">${d.hp}</td>
+      <td class="td-pc" style="color:#ef5350;font-size:11px">${d.atk}</td>
+      <td class="td-pc" style="color:#5dcff5;font-size:11px">${d.def}</td>
+      <td class="td-pc" style="color:#f5c842;font-weight:700">${d.eval}</td>
+      <td class="td-pc" style="font-size:11px;color:#aaa">${d.base}</td>
+      <td class="td-pc" style="font-size:11px;color:#aaa">${d.grow}</td>`;
     tbody.appendChild(tr);
   });
 }
