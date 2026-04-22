@@ -43,23 +43,19 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   position:absolute;
   inset:0;
   background-size:contain;
-  background-position:center center;  /* ⭐ 진짜 중앙 */
+  background-position:right center;
   background-repeat:no-repeat;
   opacity:0.15;
   pointer-events:none;
+  width: 70%;
+  
 }
 @media(max-width:600px){
   #boss-detail-content img {
     display: none;
   }
 }
-@media (max-width: 768px) {
-    .탭배경클래스 {
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-}
+
 
 </style>
 </head>
@@ -75,6 +71,7 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   <a href="./sss.html" class="tab-btn">SSS 랭킹</a>
   <a href="./raid.html" class="tab-btn">아르하 입구</a>
   <a href="./raid_info.html" class="tab-btn">레이드 정보</a>
+  <a href="./hidden.html" class="tab-btn">hidden</a>
 </div>
 
 <h1>레이드 정보</h1>
@@ -153,8 +150,8 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
       <div class="boss-icon-name">블루썬더</div>
     </div>
     <div class="boss-icon-card" onclick="showBossInfo(23, this)">
-      <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/23.png" alt="베테라">
-      <div class="boss-icon-name">베테라</div>
+      <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/23.png" alt="베타라">
+      <div class="boss-icon-name">베타라</div>
     </div>
     <div class="boss-icon-card" onclick="showBossInfo(24, this)">
       <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/24.png" alt="불나래">
@@ -250,7 +247,7 @@ const bossNames = {
   20: "레굴루스",
   21: "벨레드",
   22: "블루썬더",
-  23: "베테라",
+  23: "베타라",
   24: "불나래",
   25: "옥타",
   26: "프로텍트",
@@ -551,6 +548,7 @@ const bossData = {
         <div>
           <div class="tip-item">
             <span style="color:#020202;background:#ee7676;padding:1px 6px;border-radius:4px;font-size:13px">패턴</span>
+            <br>(크로마 레굴루스의 경우 조합에 해당되지 않습니다.)
             <br>조합을 맞추지 않을 경우, 일정 턴마다 레굴루스의 방어력 증가
             <br><span style="color:#020202;background:#e0e0e0;padding:1px 6px;border-radius:4px;font-size:13px">체력형</span> 세마리를 사용할 경우, 레굴루스가 매우 강력해짐.
           </div>
@@ -1058,7 +1056,7 @@ const bossData = {
           <div class="tip-item">
             <span style="color:#020202;background:#ee7676;padding:1px 6px;border-radius:4px;font-size:13px">패턴 파훼</span>
             <br>
-            <span style="color:#020202;background:#69d1e6;padding:1px 6px;border-radius:4px;font-size:13px">체방형</span> 두마리,
+            <span style="color:#020202;background:#e0e0e0;padding:1px 6px;border-radius:4px;font-size:13px">체방형</span> 두마리,
             <span style="color:#020202;background:#e0e0e0;padding:1px 6px;border-radius:4px;font-size:13px">공방형</span> 한마리 사용시  일정 횟수마다 들어오는 강력한 단일공격의 딜이 대폭 감소
           </div>
 
@@ -1110,7 +1108,7 @@ function showBossInfo(num, el) {
   document.getElementById('boss-detail-content').innerHTML = content;
 
 const altBosses = new Set([19,20,21,22,23,24,25,26,27,28,29,30,43]);
-const chance = 0
+const chance = 0.05
 const isAlt = altBosses.has(num) && Math.random() < chance;
 const imgVersion = isAlt ? "-2" : "-1";
 document.getElementById('boss-detail-bg').style.backgroundImage =
