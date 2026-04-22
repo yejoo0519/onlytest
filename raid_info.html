@@ -6,6 +6,11 @@
 <title>레이드 정보</title>
 <style>
 
+@media(max-width:600px){
+  #boss-detail-content img {
+    display: none;
+  }
+}
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
@@ -1070,6 +1075,7 @@ function closeBossInfo() {
   document.getElementById('boss-detail').style.display='none';
   document.querySelectorAll('.boss-icon-card').forEach(c=>c.classList.remove('active'));
 }
+
 
 </script>
 </body>
