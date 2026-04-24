@@ -45,12 +45,13 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   .buff-card-img{width:46px;height:46px}
 }
 @media(max-width:600px){
-  .raid-grid{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start}
-  .raid-grid img{width:60px;height:60px;flex-shrink:0}
-}
-@media(max-width:600px){
-  .buff-cards{flex-wrap:nowrap;overflow-x:auto}
-  .buff-card{flex-shrink:0;min-width:80px}
+  .raid-grid img{width:60px;height:60px}
+  .lemuria-sub img{width:60px;height:60px}
+  .buff-cards{flex-wrap:nowrap}
+  .buff-card{min-width:0;width:calc(25% - 9px);padding:8px 4px}
+  .buff-card-img{width:36px;height:36px}
+  .buff-stat-img{width:16px;height:16px}
+  .arrow-up,.arrow-down{font-size:10px}
 }
 </style>
 </head>
