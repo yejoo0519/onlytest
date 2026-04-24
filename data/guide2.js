@@ -19,7 +19,7 @@ const guideContent = {
       <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/16.png" style="width:18px;height:18px;vertical-align:middle;margin-right:4px">공격젬,
       <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/17.png" style="width:18px;height:18px;vertical-align:middle;margin-right:4px">방어젬 각 30개씩
     </p>
-    <p>인첸트 된 악몽, 황혼, 여명발톱 ( 가지고 있는 장신구가 파밍할 수 있는 장신구보다 낮을 경우 사용 )</p>
+    <p>인첸트 된 악몽, 황혼, 여명보주 ( 가지고 있는 장신구가 파밍할 수 있는 장신구보다 낮을 경우 사용 )</p>
     <p>등반시 사용할 강림, 진각성 타입에 따라 파밍합니다.</p>
     <p><img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/20.png" style="width:18px;height:18px;vertical-align:middle;margin-right:4px">어둠의 뿔 / 체력 또는 방어 인첸트 10개</p>
     <p><img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/21.png" style="width:18px;height:18px;vertical-align:middle;margin-right:4px">빛의 뿔 / 공격 인첸트 10개</p>
@@ -124,45 +124,3 @@ const guideContent = {
     </p>
 
     <hr>
-
-    <div class="section-title">하드 증탑 — 등반</div>
-
-    <p><span class="highlight">1층~20층</span></p>
-    <div class="quote">
-      1~10층 : SS<br>
-      11~20층 : 풀각성
-    </div>
-    <p>풀강림 중 두마리를 1번과 2번에 배치, 셋팅 후 첫번째 드래곤에게만 물약을 먹여 등반하시면 됩니다.</p>
-
-    <p><span class="highlight">21~25층 : 풀초월</span></p>
-    <p>이제부터 고기방패(재물)를 사용합니다. 첫번째 드래곤 대신 본인이 가져온 재물용 하나를 넣습니다.</p>
-    <div class="quote">예) 재물 / 메인 / 메인</div>
-    <p>레벨이 낮은 순서대로 사용해주시면 됩니다.</p>
-
-    <p><span class="highlight">31~35층 : 진각성</span></p>
-    <p>진각성층 부터는 3번째 드래곤에게도 물약을 사용합니다.</p>
-    <p>재물이 떨어진 경우, 세마리 전부 강림 셋팅 후 등반하시면 됩니다.</p>
-
-    <p><span class="highlight">36~49층 : 강림층</span></p>
-    <p>41층부터는 매우 강력해집니다. 36~40층은 7물약 사용, 41층 부터는 8물약 사용해줍니다.</p>
-    <div class="quote">41층 전에 부복제가 20개 미만일 경우 운에 맡겨야합니다.</div>
-    <p>최소 탱커 6마리 이상 남도록 계산하며 등반합니다.</p>
-
-    <div class="section-title">하드 증탑 — 50, 51층</div>
-    <p><span class="highlight">앞라인 셋팅</span> — 방어 400이상, 나머지는 체력에 몰빵해주세요.</p>
-    <div class="quote">
-      어둠의 뿔<br>
-      체방일 경우 → (회피/체력 방첸)<br>
-      방어일 경우 → (회피/체력 체첸)<br>
-      체력일 경우 → (회피/방어 방첸)
-    </div>
-    <p>물약은 <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/22.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px">회피물약 사용해주시면 됩니다.</p>
-
-    <p><span class="highlight">뒷라인 셋팅</span> — 취향에 따라 공젬 3 크젬 2 또는 공젬 1 크젬 4 사용해주시면 됩니다.</p>
-    <div class="quote">
-      빛뿔 — 공격옵션 공인첸 사용<br>
-      ( 옵션은 상관 없긴합니다. 공격 추천드려요 )
-    </div>
-    <p>물약은 <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/23.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px">크리물약 사용해주시면 됩니다.</p>
-  `
-};
