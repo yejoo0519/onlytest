@@ -73,6 +73,13 @@ body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;min-he
 .pc-category.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .pc-category-empty{color:#555;font-size:13px;padding:40px 0;text-align:center}
 
+.mobile-tabs{display:flex;gap:0;border-bottom:1px solid #333;margin-bottom:16px;width:100%;max-width:900px}
+.mobile-tab{flex:1;padding:10px;font-size:13px;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;color:#888;cursor:pointer;font-family:inherit;margin-bottom:-1px}
+.mobile-tab:hover{color:#ccc}
+.mobile-tab.active{color:#5dcff5;border-bottom:2px solid #5dcff5}
+.mobile-category{display:none;width:100%;max-width:900px}
+.mobile-category.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+
 @media(max-width:700px){
   .mobile-layout{display:flex}
   .pc-layout{display:none!important}
