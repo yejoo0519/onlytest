@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공략 & 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #333;background:#1e1e30;color:#aaa;font-size:12px;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
+.back-btn:hover{border-color:#5dcff5;color:#eee}
+
+h1{font-size:20px;color:#aaa;margin-bottom:16px}
+
+.guide-table{width:100%;border-collapse:collapse;background:#1e1e30;border:1px solid #333;border-radius:10px;overflow:hidden}
+.guide-table th{background:#252538;padding:10px 14px;font-size:12px;font-weight:700;color:#5dcff5;text-align:left;border-bottom:1px solid #333}
+.guide-table th.num{width:60px;text-align:center}
+.guide-table th.date{width:110px;text-align:center}
+.guide-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid #2a2a3e;color:#ddd}
+.guide-table td.num{text-align:center;color:#666;font-size:12px}
+.guide-table td.date{text-align:center;color:#666;font-size:12px}
+.guide-table tr:last-child td{border-bottom:none}
+.guide-table tr:hover td{background:#252538;cursor:pointer}
+.guide-title-link{color:#ddd;text-decoration:none;font-size:13px}
+.guide-title-link:hover{color:#5dcff5}
+</style>
+</head>
+<body>
+
+<a href="./index.html" class="back-btn">← 메인으로</a>
+
+<h1>공략 & 가이드</h1>
+
+<table class="guide-table">
+  <thead>
+    <tr>
+      <th class="num">번호</th>
+      <th>제목</th>
+      <th class="date">수정일</th>
+    </tr>
+  </thead>
+  <tbody id="guide-list-body">
+  </tbody>
+</table>
+
+<script src="./data/guide_list.js"></script>
+<script>
+const tbody = document.getElementById('guide-list-body');
+guideList.forEach(g => {
+  const tr = document.createElement('tr');
+  tr.onclick = () => location.href = `./guide_view.html?id=${g.id}`;
+  tr.innerHTML = `
+    <td class="num">${g.id}</td>
+    <td><a class="guide-title-link" href="./guide_view.html?id=${g.id}">${g.title}</a></td>
+    <td class="date">${g.date}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
