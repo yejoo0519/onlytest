@@ -39,10 +39,8 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 .arrow-down{color:#ef5350;font-size:12px;font-weight:700}
 .map-img{width:100%;max-width:500px;border-radius:10px;display:block;margin:0 auto}
 @media(max-width:600px){
-  .raid-grid img{width:60px;height:60px}
-  .lemuria-sub img{width:60px;height:60px}
-  .buff-card{min-width:76px;padding:10px}
-  .buff-card-img{width:46px;height:46px}
+  .raid-grid{flex-wrap:nowrap}
+  .raid-grid img{width:calc(20% - 10px);height:auto;flex-shrink:0}
 }
 @media(max-width:600px){
   .raid-grid img{width:60px;height:60px}
@@ -53,6 +51,7 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   .buff-stat-img{width:16px;height:16px}
   .arrow-up,.arrow-down{font-size:10px}
 }
+
 </style>
 </head>
 <body>
