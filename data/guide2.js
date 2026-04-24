@@ -118,7 +118,10 @@ const guideContent = {
       <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/23.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px">크물 7단계,
       <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/22.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px">회물 7단계 넉넉하게 100개 이상
     </p>
-    <p>크물 8단계, 회물 8단계 넉넉히 20개 이상 ( 50, 51층에서 사용 )</p>
+    <p>
+      <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/24.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px">크물 8단계,
+      <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/25.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px">회물 8단계 넉넉히 20개 이상 ( 50, 51층에서 사용 )
+    </p>
 
     <hr>
 
