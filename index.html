@@ -102,33 +102,23 @@ body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;min-he
       <span class="contact-icon">D</span>문의용 디스코드
     </a>
   </div>
-  <div class="mobile-grid">
-    <a href="./tier.html" class="card">
-      <span class="card-badge">정보</span>
-      <div class="card-title">초월 등급표</div>
-      <div class="card-desc">속성별 초월 드래곤 등급 정보<br>속성 · 타입 필터 지원</div>
-    </a>
-    <a href="./dex.html" class="card">
-      <span class="card-badge">정보</span>
-      <div class="card-title">드래곤 도감</div>
-      <div class="card-desc">전체 697마리 드래곤 정보<br>속성 · 타입 · 단계 · 코드화 필터 지원</div>
-    </a>
-    <a href="./sss.html" class="card">
-      <span class="card-badge">정보</span>
-      <div class="card-title">SSS 랭킹</div>
-      <div class="card-desc">Lv.45 / Lv.21 SSS 드래곤 랭킹<br>속성 필터 지원</div>
-    </a>
-    <a href="./raid.html" class="card">
-      <span class="card-badge">정보</span>
-      <div class="card-title">아르하 입구</div>
-      <div class="card-desc">디데락 조합, 평르하 조합<br>디데락 자동 조합기능 제공</div>
-    </a>
-    <a href="./raid_info.html" class="card">
-      <span class="card-badge">정보</span>
-      <div class="card-title">레이드 정보</div>
-      <div class="card-desc">아르하필드 · 일반 레이드 · 레무리아<br>보스별 상세 정보</div>
-    </a>
-  </div>
+<div class="mobile-tabs">
+  <button class="mobile-tab active" onclick="switchMobileTab('info', this)">정보</button>
+  <button class="mobile-tab" onclick="switchMobileTab('guide', this)">공략&가이드</button>
+  <button class="mobile-tab" onclick="switchMobileTab('weekly', this)">주간</button>
+</div>
+
+<div class="mobile-category active" id="mobile-info">
+  <a href="./tier.html" class="card">...</a>
+  ...
+</div>
+
+<div class="mobile-category" id="mobile-guide">
+  <div style="color:#555;font-size:13px;padding:40px 0;text-align:center">공략 & 가이드 준비 중입니다.</div>
+</div>
+
+<div class="mobile-category" id="mobile-weekly">
+  <div style="color:#555;font-size:13px;padding:40px 0;text-align:center">주간 콘텐츠 준비 중입니다.</div>
 </div>
 
 <!-- PC 레이아웃 -->
@@ -240,6 +230,14 @@ function switchPCTab(tab) {
   event.currentTarget.classList.add('active');
   document.getElementById('pc-'+tab).classList.add('active');
 }
+
+function switchMobileTab(tab, el) {
+  document.querySelectorAll('.mobile-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.mobile-category').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('mobile-'+tab).classList.add('active');
+}
+
 </script>
 </body>
 </html>
