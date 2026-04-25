@@ -4,16 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자 페이지</title>
+<link id="theme-css" rel="stylesheet" href="./theme-dark.css">
+<script src="./theme.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #333;background:#1e1e30;color:#aaa;font-size:12px;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
-.back-btn:hover{border-color:#5dcff5;color:#eee}
+body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);padding:12px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:12px;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
+.back-btn:hover{border-color:var(--accent);color:var(--text)}
 h1{font-size:20px;color:#ef5350;margin-bottom:20px}
-h2{font-size:15px;color:#aaa;margin-bottom:12px;margin-top:24px}
-.table{width:100%;border-collapse:collapse;background:#1e1e30;border:1px solid #333;border-radius:10px;overflow:hidden;margin-bottom:16px}
-.table th{background:#252538;padding:10px 14px;font-size:12px;font-weight:700;color:#5dcff5;text-align:left;border-bottom:1px solid #333}
-.table td{padding:10px 14px;font-size:13px;border-bottom:1px solid #2a2a3e;color:#ddd}
+h2{font-size:15px;color:var(--text2);margin-bottom:12px;margin-top:24px}
+.table{width:100%;border-collapse:collapse;background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.table th{background:var(--bg3);padding:10px 14px;font-size:12px;font-weight:700;color:var(--accent);text-align:left;border-bottom:1px solid var(--border)}
+.table td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border2);color:var(--text)}
 .table tr:last-child td{border-bottom:none}
 .btn{padding:5px 10px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:4px}
 .btn-danger{background:rgba(239,83,80,0.15);color:#ef5350;border:1px solid rgba(239,83,80,0.3)}
@@ -24,20 +26,20 @@ h2{font-size:15px;color:#aaa;margin-bottom:12px;margin-top:24px}
 .btn-ok:hover{background:rgba(102,187,106,0.3)}
 .btn-pin{background:rgba(255,167,38,0.15);color:#ffb74d;border:1px solid rgba(255,167,38,0.3)}
 .btn-pin:hover{background:rgba(255,167,38,0.3)}
-.btn-unpin{background:rgba(255,255,255,0.05);color:#888;border:1px solid #444}
+.btn-unpin{background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--border3)}
 .btn-unpin:hover{background:rgba(255,255,255,0.1)}
-.btn-verify{background:rgba(93,207,245,0.15);color:#5dcff5;border:1px solid rgba(93,207,245,0.3)}
+.btn-verify{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-border)}
 .btn-verify:hover{background:rgba(93,207,245,0.3)}
-.btn-unverify{background:rgba(255,255,255,0.05);color:#888;border:1px solid #444}
+.btn-unverify{background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--border3)}
 .btn-unverify:hover{background:rgba(255,255,255,0.1)}
 .badge-banned{color:#ef5350;font-size:11px}
 .badge-ok{color:#66bb6a;font-size:11px}
 .board-badge{font-size:10px;padding:2px 6px;border-radius:4px;margin-left:4px}
-.board-qna{background:rgba(93,207,245,0.15);color:#5dcff5}
+.board-qna{background:var(--accent-bg);color:var(--accent)}
 .board-guide{background:rgba(245,200,66,0.15);color:#f5c842}
 .board-guild{background:rgba(102,187,106,0.15);color:#66bb6a}
 .pin-badge{font-size:10px;color:#ffb74d;margin-right:4px}
-.verify-badge{font-size:10px;color:#5dcff5;margin-right:4px}
+.verify-badge{font-size:10px;color:var(--accent);margin-right:4px}
 </style>
 </head>
 <body>
