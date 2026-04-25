@@ -4,15 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>길드 정보</title>
+<link id="theme-css" rel="stylesheet" href="./theme-dark.css">
+<script src="./theme.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:16px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #333;background:#1e1e30;color:#aaa;font-size:12px;text-decoration:none;margin-bottom:20px;transition:all 0.15s}
-.back-btn:hover{border-color:#5dcff5;color:#eee}
-.post-body{max-width:780px;font-size:14px;color:#ccc;line-height:1.9}
-.post-body .section-title{font-size:15px;font-weight:700;color:#5dcff5;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid #2a2a3e}
+body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);padding:16px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:12px;text-decoration:none;margin-bottom:20px;transition:all 0.15s}
+.back-btn:hover{border-color:var(--accent);color:var(--text)}
+.post-body{max-width:780px;font-size:14px;color:var(--text2);line-height:1.9}
+.post-body .section-title{font-size:15px;font-weight:700;color:var(--accent);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border2)}
 .post-body p{margin-bottom:8px;word-break:keep-all}
-.post-body hr{border:none;border-top:1px solid #2a2a3e;margin:20px 0}
+.post-body hr{border:none;border-top:1px solid var(--border2);margin:20px 0}
 </style>
 </head>
 <body>
