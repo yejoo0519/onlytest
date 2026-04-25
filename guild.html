@@ -4,43 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>길드</title>
+<link id="theme-css" rel="stylesheet" href="./theme-dark.css">
+<script src="./theme.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #333;background:#1e1e30;color:#aaa;font-size:12px;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
-.back-btn:hover{border-color:#5dcff5;color:#eee}
+body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);padding:12px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:12px;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
+.back-btn:hover{border-color:var(--accent);color:var(--text)}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.header h1{font-size:20px;color:#aaa}
+.header h1{font-size:20px;color:var(--text2)}
 .header-right{display:flex;align-items:center;gap:8px}
-.user-info{font-size:12px;color:#5dcff5;font-weight:600}
+.user-info{font-size:12px;color:var(--accent);font-weight:600}
 .btn{padding:7px 14px;border-radius:20px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
-.btn-primary{background:rgba(93,207,245,0.15);color:#5dcff5;border:1px solid rgba(93,207,245,0.3)}
+.btn-primary{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-border)}
 .btn-primary:hover{background:rgba(93,207,245,0.25)}
-.btn-gray{background:#252538;color:#aaa;border:1px solid #333}
-.btn-gray:hover{border-color:#5dcff5;color:#eee}
+.btn-gray{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.btn-gray:hover{border-color:var(--accent);color:var(--text)}
 .btn-danger{background:rgba(239,83,80,0.1);color:#ef5350;border:1px solid rgba(239,83,80,0.2)}
-.write-form{background:#1e1e30;border:1px solid #333;border-radius:10px;padding:16px;margin-bottom:16px}
-.write-form input,.write-form textarea{width:100%;padding:9px 12px;background:#252538;border:1px solid #444;border-radius:8px;color:#eee;font-size:13px;font-family:inherit;margin-bottom:8px}
+.write-form{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px}
+.write-form input,.write-form textarea{width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--border3);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;margin-bottom:8px}
 .write-form textarea{min-height:100px;resize:vertical}
-.write-form input:focus,.write-form textarea:focus{outline:none;border-color:#5dcff5}
+.write-form input:focus,.write-form textarea:focus{outline:none;border-color:var(--accent)}
 .write-form-btns{display:flex;justify-content:flex-end;gap:8px}
-.guild-table{width:100%;border-collapse:collapse;background:#1e1e30;border:1px solid #333;border-radius:10px;overflow:hidden}
-.guild-table th{background:#252538;padding:10px 14px;font-size:12px;font-weight:700;color:#5dcff5;text-align:left;border-bottom:1px solid #333}
+.guild-table{width:100%;border-collapse:collapse;background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.guild-table th{background:var(--bg3);padding:10px 14px;font-size:12px;font-weight:700;color:var(--accent);text-align:left;border-bottom:1px solid var(--border)}
 .guild-table th.num{width:60px;text-align:center}
 .guild-table th.author{width:90px;text-align:center}
 .guild-table th.likes{width:60px;text-align:center}
 .guild-table th.date{width:110px;text-align:center}
-.guild-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid #2a2a3e;color:#ddd}
-.guild-table td.num{text-align:center;color:#666;font-size:12px}
-.guild-table td.author{text-align:center;color:#aaa;font-size:12px}
+.guild-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border2);color:var(--text)}
+.guild-table td.num{text-align:center;color:var(--text4);font-size:12px}
+.guild-table td.author{text-align:center;color:var(--text2);font-size:12px}
 .guild-table td.likes{text-align:center;color:#f5c842;font-size:12px}
-.guild-table td.date{text-align:center;color:#666;font-size:12px}
+.guild-table td.date{text-align:center;color:var(--text4);font-size:12px}
 .guild-table tr:last-child td{border-bottom:none}
-.guild-table tr:hover td{background:#252538;cursor:pointer}
-.guild-title-link{color:#ddd;text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px}
-.guild-title-link:hover{color:#5dcff5}
-.guild-logo-small{width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid #333;background:#252538;flex-shrink:0}
-.empty{text-align:center;color:#555;font-size:13px;padding:32px 0}
+.guild-table tr:hover td{background:var(--bg3);cursor:pointer}
+.guild-title-link{color:var(--text);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px}
+.guild-title-link:hover{color:var(--accent)}
+.guild-logo-small{width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid var(--border);background:var(--bg3);flex-shrink:0}
+.empty{text-align:center;color:var(--text4);font-size:13px;padding:32px 0}
 .verify-badge{font-size:12px}
 </style>
 </head>
