@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>묻고답하기</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #333;background:#1e1e30;color:#aaa;font-size:12px;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
+.back-btn:hover{border-color:#5dcff5;color:#eee}
+.post-box{background:#1e1e30;border:1px solid #333;border-radius:10px;padding:20px;margin-bottom:16px;max-width:780px}
+.post-title{font-size:18px;font-weight:700;color:#eee;margin-bottom:8px}
+.post-meta{font-size:12px;color:#666;margin-bottom:16px;display:flex;gap:12px;align-items:center}
+.post-content{font-size:14px;color:#ccc;line-height:1.9;white-space:pre-wrap;word-break:break-all}
+.post-actions{display:flex;justify-content:flex-end;margin-top:12px}
+.btn{padding:6px 12px;border-radius:6px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-danger{background:rgba(239,83,80,0.1);color:#ef5350;border:1px solid rgba(239,83,80,0.2)}
+.btn-danger:hover{background:rgba(239,83,80,0.2)}
+
+/* 댓글 */
+.comments-title{font-size:14px;font-weight:700;color:#5dcff5;margin-bottom:12px;max-width:780px}
+.comment-box{background:#1e1e30;border:1px solid #333;border-radius:10px;padding:16px;margin-bottom:16px;max-width:780px}
+.comment-item{padding:10px 0;border-bottom:1px solid #2a2a3e}
+.comment-item:last-child{border-bottom:none;padding-bottom:0}
+.comment-meta{font-size:11px;color:#666;margin-bottom:4px;display:flex;gap:10px;align-items:center}
+.comment-author{color:#5dcff5;font-weight:700}
+.comment-content{font-size:13px;color:#ccc;line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.comment-del{margin-left:auto;font-size:11px;color:#ef5350;cursor:pointer;border:none;background:none;font-family:inherit}
+.comment-del:hover{text-decoration:underline}
+
+.write-comment{background:#1e1e30;border:1px solid #333;border-radius:10px;padding:14px;max-width:780px}
+.write-comment textarea{width:100%;padding:9px 12px;background:#252538;border:1px solid #444;border-radius:8px;color:#eee;font-size:13px;font-family:inherit;min-height:70px;resize:vertical;margin-bottom:8px}
+.write-comment textarea:focus{outline:none;border-color:#5dcff5}
+.write-comment-btns{display:flex;justify-content:flex-end}
+.btn-primary{background:rgba(93,207,245,0.15);color:#5dcff5;border:1px solid rgba(93,207,245,0.3);padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-primary:hover{background:rgba(93,207,245,0.25)}
+.login-notice{font-size:12px;color:#666;text-align:center;padding:12px}
+.login-notice a{color:#5dcff5;text-decoration:none}
+</style>
+</head>
+<body>
+
+<a href="./community.html" class="back-btn">← 목록으로</a>
+
+<div class="post-box" id="post-box">로딩 중...</div>
+
+<div id="comments-section"></div>
+
+<script src="./sb_config.js"></script>
+<script>
+const user = getUser();
+const params = new URLSearchParams(location.search);
+const postId = params.get('id');
+
+async function loadPost() {
+  try {
+    const rows = await supabase('GET', 'posts', null, `?id=eq.${postId}`);
+    if(!rows || rows.length === 0) { document.getElementById('post-box').innerHTML = '<div style="color:#666;text-align:center;padding:40px">글을 찾을 수 없습니다.</div>'; return; }
+    const p = rows[0];
+    document.title = p.title + ' - 묻고답하기';
+    const canDelete = user && (user.id === p.user_id || user.is_admin);
+    document.getElementById('post-box').innerHTML = `
+      <div class="post-title">${p.title}</div>
+      <div class="post-meta">
+        <span class="comment-author">${p.username}</span>
+        <span>${p.created_at.slice(0,10).replace(/-/g,'.')}</span>
+      </div>
+      <div class="post-content">${p.content}</div>
+      ${canDelete ? `<div class="post-actions"><button class="btn btn-danger" onclick="deletePost(${p.id})">삭제</button></div>` : ''}
+    `;
+  } catch(e) { document.getElementById('post-box').innerHTML = '오류: ' + e.message; }
+}
+
+async function deletePost(id) {
+  if(!confirm('글을 삭제할까요?')) return;
+  await supabase('DELETE', 'posts', null, `?id=eq.${id}`);
+  location.href = './community.html';
+}
+
+async function loadComments() {
+  try {
+    const comments = await supabase('GET', 'comments', null, `?post_id=eq.${postId}&order=created_at.asc`);
+    const section = document.getElementById('comments-section');
+    let html = `<div class="comments-title">댓글 ${comments ? comments.length : 0}개</div>`;
+
+    if(comments && comments.length > 0) {
+      html += `<div class="comment-box">` + comments.map(c => {
+        const canDel = user && (user.id === c.user_id || user.is_admin);
+        return `
+          <div class="comment-item">
+            <div class="comment-meta">
+              <span class="comment-author">${c.username}</span>
+              <span>${c.created_at.slice(0,10).replace(/-/g,'.')}</span>
+              ${canDel ? `<button class="comment-del" onclick="deleteComment(${c.id})">삭제</button>` : ''}
+            </div>
+            <div class="comment-content">${c.content}</div>
+          </div>
+        `;
+      }).join('') + `</div>`;
+    }
+
+    if(user) {
+      html += `
+        <div class="write-comment">
+          <textarea id="comment-content" placeholder="답변을 입력하세요"></textarea>
+          <div class="write-comment-btns">
+            <button class="btn-primary" onclick="submitComment()">답변 등록</button>
+          </div>
+        </div>
+      `;
+    } else {
+      html += `<div class="login-notice"><a href="./login.html">로그인</a> 후 답변을 남길 수 있어요.</div>`;
+    }
+    section.innerHTML = html;
+  } catch(e) { console.error(e); }
+}
+
+async function submitComment() {
+  const content = document.getElementById('comment-content').value.trim();
+  if(!content) { alert('내용을 입력해주세요.'); return; }
+  try {
+    await supabase('POST', 'comments', { post_id: parseInt(postId), user_id: user.id, username: user.username, content });
+    loadComments();
+  } catch(e) { alert('오류: ' + e.message); }
+}
+
+async function deleteComment(id) {
+  if(!confirm('댓글을 삭제할까요?')) return;
+  await supabase('DELETE', 'comments', null, `?id=eq.${id}`);
+  loadComments();
+}
+
+loadPost();
+loadComments();
+</script>
+</body>
+</html>
