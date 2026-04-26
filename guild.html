@@ -176,7 +176,7 @@ function renderList() {
     filtered.forEach(p => {
       let tags = [];
       try { tags = JSON.parse(p.tags || '[]'); } catch {}
-      const tagHtml = tags.map(t => `<span class="tag-badge tag-${t.replace(/\s/g,'')}">${t}</span>`).join('');
+      const tagHtml = '';
       const num = p.is_pinned ? '📌' : normalPosts.length - normalPosts.indexOf(p);
       const isMe = user && user.id === p.user_id;
       const blockBtn = user && !isMe ? `<button class="block-btn" onclick="event.stopPropagation();blockUser('${p.user_id}','${p.nickname||p.username}')">차단</button>` : '';
