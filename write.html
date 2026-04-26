@@ -29,8 +29,6 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
 .btn-primary:hover{background:rgba(93,207,245,0.25)}
 .btn-gray{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
 .btn-gray:hover{border-color:var(--accent);color:var(--text)}
-
-/* Quill */
 .ql-toolbar{background:var(--bg3);border:1px solid var(--border3)!important;border-radius:8px 8px 0 0}
 .ql-container{background:var(--bg3);border:1px solid var(--border3)!important;border-top:none!important;border-radius:0 0 8px 8px;font-family:'Malgun Gothic',sans-serif;font-size:14px}
 .ql-editor{color:var(--text);min-height:400px}
@@ -76,6 +74,14 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
       </select>
     </div>
   </div>
+  <div class="field" id="friend-options" style="display:none">
+    <label>태그</label>
+    <select id="friend-tag">
+      <option value="정기친구">정기친구</option>
+      <option value="레이드프리미엄">레이드 프리미엄</option>
+      <option value="기타">기타</option>
+    </select>
+  </div>
   <div class="field">
     <label>내용</label>
     <div id="quill-editor"></div>
@@ -92,22 +98,21 @@ const params = new URLSearchParams(location.search);
 const board = params.get('board') || 'qna';
 const user = getUser();
 
-// 로그인 체크
 if(!user) { alert('로그인이 필요합니다.'); location.href = './login.html'; }
 
-// 게시판별 설정
 const boardConfig = {
-  qna:   { name: '묻고답하기', back: './community.html', placeholder: '내용을 입력하세요' },
-  guide: { name: '공략 & 가이드', back: './guide.html', placeholder: '공략 내용을 입력하세요' },
-  guild: { name: '길드 홍보', back: './guild.html', placeholder: '길드 소개, 모집 조건 등을 입력하세요' }
+  qna:    { name: '묻고답하기',    back: './community.html', placeholder: '내용을 입력하세요' },
+  guide:  { name: '공략 & 가이드', back: './guide.html',     placeholder: '공략 내용을 입력하세요' },
+  guild:  { name: '길드 홍보',     back: './guild.html',     placeholder: '길드 소개, 모집 조건 등을 입력하세요' },
+  friend: { name: '친구요청',      back: './friend.html',    placeholder: '친구 요청 내용을 입력하세요' }
 };
 const config = boardConfig[board] || boardConfig.qna;
 
 document.getElementById('board-label').textContent = config.name;
 document.getElementById('back-btn').href = config.back;
 if(board === 'guide') document.getElementById('guide-options').style.display = '';
+if(board === 'friend') document.getElementById('friend-options').style.display = '';
 
-// Quill 초기화
 const quill = new Quill('#quill-editor', {
   theme: 'snow',
   placeholder: config.placeholder,
@@ -125,9 +130,7 @@ const quill = new Quill('#quill-editor', {
   }
 });
 
-function goBack() {
-  location.href = config.back;
-}
+function goBack() { location.href = config.back; }
 
 async function submitPost() {
   const title = document.getElementById('post-title').value.trim();
@@ -150,6 +153,10 @@ async function submitPost() {
     const category = document.getElementById('post-category').value;
     const level = document.getElementById('post-level').value;
     postData.tags = JSON.stringify([category, level]);
+  }
+  if(board === 'friend') {
+    const tag = document.getElementById('friend-tag').value;
+    postData.tags = JSON.stringify([tag]);
   }
 
   try {
