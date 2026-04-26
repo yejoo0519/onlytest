@@ -29,6 +29,12 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
 .btn-primary:hover{background:rgba(93,207,245,0.25)}
 .btn-gray{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
 .btn-gray:hover{border-color:var(--accent);color:var(--text)}
+.tag-group{margin-bottom:10px}
+.tag-group-label{font-size:11px;color:var(--text3);margin-bottom:6px}
+.tag-options{display:flex;flex-wrap:wrap;gap:6px}
+.tag-btn{padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.tag-btn:hover{border-color:var(--accent);color:var(--text2)}
+.tag-btn.active{border-color:var(--accent);background:var(--accent-bg);color:var(--accent)}
 .ql-toolbar{background:var(--bg3);border:1px solid var(--border3)!important;border-radius:8px 8px 0 0}
 .ql-container{background:var(--bg3);border:1px solid var(--border3)!important;border-top:none!important;border-radius:0 0 8px 8px;font-family:'Malgun Gothic',sans-serif;font-size:14px}
 .ql-editor{color:var(--text);min-height:400px}
@@ -83,6 +89,25 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
       <label>면접방 링크 <span style="color:var(--text4);font-weight:400">(선택)</span></label>
       <input id="guild-interview" type="text" placeholder="카카오 오픈채팅 등 링크 입력">
     </div>
+    <div class="field">
+      <label>태그</label>
+      <div class="tag-group">
+        <div class="tag-group-label">길드 컨텐츠 <span style="color:var(--text4)">(중복 선택 가능)</span></div>
+        <div class="tag-options">
+          <button class="tag-btn" onclick="toggleGuildTag(this,'길드전')">길드전</button>
+          <button class="tag-btn" onclick="toggleGuildTag(this,'광산')">광산</button>
+          <button class="tag-btn" onclick="toggleGuildTag(this,'길드레이드')">길드레이드</button>
+          <button class="tag-btn" onclick="toggleGuildTag(this,'길드포인트')">길드포인트</button>
+        </div>
+      </div>
+      <div class="tag-group" style="margin-top:8px">
+        <div class="tag-group-label">나이</div>
+        <div class="tag-options">
+          <button class="tag-btn" id="age-adult" onclick="selectAgeTag(this,'성인')">성인</button>
+          <button class="tag-btn" id="age-any" onclick="selectAgeTag(this,'상관X')">상관X</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div id="friend-options" style="display:none">
     <div class="field">
@@ -135,6 +160,26 @@ if(board === 'friend') {
   document.getElementById('friend-code-display').textContent = fc;
 }
 
+// 길드 태그 관리
+let selectedContentTags = [];
+let selectedAgeTag = '';
+
+function toggleGuildTag(el, tag) {
+  if(selectedContentTags.includes(tag)) {
+    selectedContentTags = selectedContentTags.filter(t => t !== tag);
+    el.classList.remove('active');
+  } else {
+    selectedContentTags.push(tag);
+    el.classList.add('active');
+  }
+}
+
+function selectAgeTag(el, tag) {
+  selectedAgeTag = selectedAgeTag === tag ? '' : tag;
+  document.querySelectorAll('#age-adult,#age-any').forEach(b => b.classList.remove('active'));
+  if(selectedAgeTag) el.classList.add('active');
+}
+
 const quill = new Quill('#quill-editor', {
   theme: 'snow',
   placeholder: config.placeholder,
@@ -181,6 +226,9 @@ async function submitPost() {
     const interview = document.getElementById('guild-interview').value.trim();
     if(icon) postData.guild_icon = icon;
     if(interview) postData.guild_interview = interview;
+    const allTags = [...selectedContentTags];
+    if(selectedAgeTag) allTags.push(selectedAgeTag);
+    postData.tags = JSON.stringify(allTags);
   }
   if(board === 'friend') {
     const tag = document.getElementById('friend-tag').value;
