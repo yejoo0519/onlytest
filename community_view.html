@@ -18,6 +18,9 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
 .post-meta{font-size:12px;color:var(--text4);margin-bottom:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .post-author{color:var(--accent);font-weight:700}
 .admin-badge{font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(239,83,80,0.15);color:#ef5350;border:1px solid rgba(239,83,80,0.3);font-weight:600;margin-left:4px}
+.friend-code-box{background:var(--bg3);border:1px solid var(--accent-border);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.friend-code-label{font-size:11px;color:var(--text3)}
+.friend-code-value{font-size:15px;color:var(--accent);font-family:monospace;font-weight:700;letter-spacing:2px}
 .post-content{font-size:14px;color:var(--text2);line-height:1.9;word-break:break-all}
 .post-actions{display:flex;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap;gap:8px}
 .post-actions-right{display:flex;gap:6px}
@@ -85,6 +88,7 @@ function blockUser(userId, nickname) {
 
 if(backBoard === 'guild') document.getElementById('back-link').href = './guild.html';
 else if(backBoard === 'guide') document.getElementById('back-link').href = './guide.html';
+else if(backBoard === 'friend') document.getElementById('back-link').href = './friend.html';
 
 // 관리자 ID 목록 로드
 async function loadAdmins() {
@@ -199,7 +203,7 @@ async function toggleLike() {
 async function deletePost(id) {
   if(!confirm('글을 삭제할까요?')) return;
   await supabase('DELETE', 'posts', null, `?id=eq.${id}`);
-  const back = backBoard === 'guild' ? './guild.html' : backBoard === 'guide' ? './guide.html' : './community.html';
+  const back = backBoard === 'guild' ? './guild.html' : backBoard === 'guide' ? './guide.html' : backBoard === 'friend' ? './friend.html' : './community.html';
   location.href = back;
 }
 
