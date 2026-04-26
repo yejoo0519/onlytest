@@ -289,7 +289,7 @@ async function loadComments() {
           </div>
         </div>
       `;
-    } else {
+    } else if(currentPost.board !== 'guild') {
       html += `<div class="login-notice"><a href="./login.html">로그인</a> 후 답변을 남길 수 있어요.</div>`;
     }
     section.innerHTML = html;
