@@ -123,6 +123,11 @@ async function loadPost() {
 
     postBox.innerHTML = `
       ${currentPost.is_pinned ? '<div class="pin-label">📌 공지 / 고정글</div>' : ''}
+      ${currentPost.board === 'guild' && (currentPost.guild_icon || currentPost.guild_interview) ? `
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          ${currentPost.guild_icon ? `<img src="${currentPost.guild_icon}" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:var(--bg3)">` : ''}
+        </div>
+      ` : ''}
       <div class="post-title">${currentPost.title}</div>
       <div class="post-meta">
         <span class="post-author">${currentPost.nickname || currentPost.username}</span>
@@ -155,6 +160,11 @@ async function loadPost() {
           ${canDelete ? `<button class="btn btn-danger" onclick="deletePost(${currentPost.id})">삭제</button>` : ''}
         </div>
       </div>
+      ${currentPost.board === 'guild' && currentPost.guild_interview ? `
+        <a href="${currentPost.guild_interview}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;padding:13px;background:#FEE500;border:none;border-radius:10px;color:#3C1E1E;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none">
+          K&nbsp; 길드 면접방 입장하기
+        </a>
+      ` : ''}
     `;
   } catch(e) { document.getElementById('post-box').innerHTML = '오류: ' + e.message; }
 }
