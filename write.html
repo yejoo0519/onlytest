@@ -74,6 +74,16 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
       </select>
     </div>
   </div>
+  <div id="guild-options" style="display:none">
+    <div class="field">
+      <label>길드 아이콘 URL <span style="color:var(--text4);font-weight:400">(선택)</span></label>
+      <input id="guild-icon" type="text" placeholder="이미지 URL 입력 (없으면 기본 이미지 사용)">
+    </div>
+    <div class="field">
+      <label>면접방 링크 <span style="color:var(--text4);font-weight:400">(선택)</span></label>
+      <input id="guild-interview" type="text" placeholder="카카오 오픈채팅 등 링크 입력">
+    </div>
+  </div>
   <div id="friend-options" style="display:none">
     <div class="field">
       <label>내 친구코드</label>
@@ -118,6 +128,7 @@ const config = boardConfig[board] || boardConfig.qna;
 document.getElementById('board-label').textContent = config.name;
 document.getElementById('back-btn').href = config.back;
 if(board === 'guide') document.getElementById('guide-options').style.display = '';
+if(board === 'guild') document.getElementById('guild-options').style.display = '';
 if(board === 'friend') {
   document.getElementById('friend-options').style.display = '';
   const fc = user.friend_code || '미등록';
@@ -164,6 +175,12 @@ async function submitPost() {
     const category = document.getElementById('post-category').value;
     const level = document.getElementById('post-level').value;
     postData.tags = JSON.stringify([category, level]);
+  }
+  if(board === 'guild') {
+    const icon = document.getElementById('guild-icon').value.trim();
+    const interview = document.getElementById('guild-interview').value.trim();
+    if(icon) postData.guild_icon = icon;
+    if(interview) postData.guild_interview = interview;
   }
   if(board === 'friend') {
     const tag = document.getElementById('friend-tag').value;
