@@ -47,9 +47,11 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
 .post-link:hover{color:var(--accent)}
 .pin-icon{font-size:11px;margin-right:4px}
 .empty{text-align:center;color:var(--text4);font-size:13px;padding:32px 0}
-
-/* Quill 에디터 스타일 */
-.ql-toolbar{background:var(--bg3);border:1px solid var(--border3)!important;border-radius:8px 8px 0 0;filter:invert(0)}
+.block-btn{font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid var(--border3);background:none;color:var(--text4);cursor:pointer;font-family:inherit;margin-left:4px}
+.block-btn:hover{border-color:#ef5350;color:#ef5350}
+.blocked-count{font-size:11px;color:var(--text4);text-align:right;margin-bottom:6px}
+.blocked-count a{color:var(--accent);cursor:pointer;text-decoration:none}
+.ql-toolbar{background:var(--bg3);border:1px solid var(--border3)!important;border-radius:8px 8px 0 0}
 .ql-container{background:var(--bg3);border:1px solid var(--border3)!important;border-top:none!important;border-radius:0 0 8px 8px;min-height:120px;font-family:'Malgun Gothic',sans-serif;font-size:13px;color:var(--text)}
 .ql-editor{color:var(--text);min-height:120px}
 .ql-editor.ql-blank::before{color:var(--text4)}
@@ -74,14 +76,7 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
   </div>
 </div>
 
-<div class="write-form" id="write-form" style="display:none">
-  <input id="post-title" type="text" placeholder="제목">
-  <div id="quill-editor"></div>
-  <div class="write-form-btns">
-    <button class="btn btn-gray" onclick="toggleForm()">취소</button>
-    <button class="btn btn-primary" onclick="submitPost()">등록</button>
-  </div>
-</div>
+<div id="blocked-info"></div>
 
 <table class="post-table">
   <thead>
@@ -99,7 +94,31 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
 <script src="./sb_config.js"></script>
 <script>
 const user = getUser();
-let quill;
+
+// 차단 관리
+function getBlockList() { try { return JSON.parse(localStorage.getItem('block_list') || '[]'); } catch { return []; } }
+function saveBlockList(list) { localStorage.setItem('block_list', JSON.stringify(list)); }
+function isBlocked(userId) { return getBlockList().includes(userId); }
+function blockUser(userId, nickname) {
+  if(!confirm(`"${nickname}"님을 차단할까요? 이 유저의 글이 숨겨집니다.`)) return;
+  const list = getBlockList();
+  if(!list.includes(userId)) { list.push(userId); saveBlockList(list); }
+  loadPosts();
+}
+function unblockUser(userId) {
+  const list = getBlockList().filter(id => id !== userId);
+  saveBlockList(list);
+  loadPosts();
+}
+function showBlockList() {
+  const list = getBlockList();
+  if(list.length === 0) { alert('차단한 유저가 없어요.'); return; }
+  const result = list.map((id, i) => `${i+1}. ${id}`).join('\n');
+  if(confirm(`차단 목록:\n${result}\n\n전체 차단 해제할까요?`)) {
+    saveBlockList([]);
+    loadPosts();
+  }
+}
 
 if(user) {
   document.getElementById('user-info').textContent = user.nickname || user.username;
@@ -118,68 +137,44 @@ if(user) {
   document.getElementById('auth-btn').onclick = () => location.href = './login.html';
 }
 
-function toggleForm() {
-  const f = document.getElementById('write-form');
-  const isHidden = f.style.display === 'none';
-  f.style.display = isHidden ? '' : 'none';
-  if(isHidden && !quill) {
-    quill = new Quill('#quill-editor', {
-      theme: 'snow',
-      placeholder: '내용을 입력하세요',
-      modules: {
-        toolbar: [
-          ['bold','italic','underline','strike'],
-          [{'color':[]},{'background':[]}],
-          [{'size':['small',false,'large','huge']}],
-          ['link','image'],
-          [{'list':'ordered'},{'list':'bullet'}],
-          ['clean']
-        ]
-      }
-    });
-  }
-}
-
-async function submitPost() {
-  const title = document.getElementById('post-title').value.trim();
-  const content = quill ? quill.root.innerHTML : '';
-  const textOnly = quill ? quill.getText().trim() : '';
-  if(!title || !textOnly) { alert('제목과 내용을 입력해주세요.'); return; }
-  try {
-    await supabase('POST', 'posts', {
-      user_id: user.id,
-      username: user.username,
-      nickname: user.nickname || user.username,
-      board: 'qna',
-      title,
-      content
-    });
-    document.getElementById('post-title').value = '';
-    quill.setContents([]);
-    toggleForm();
-    loadPosts();
-  } catch(e) { alert('오류: ' + e.message); }
-}
-
 async function loadPosts() {
   const tbody = document.getElementById('post-list');
   tbody.innerHTML = '<tr><td colspan="5" class="empty">로딩 중...</td></tr>';
+  const blockList = getBlockList();
+
+  // 차단 목록 표시
+  const blockedInfo = document.getElementById('blocked-info');
+  if(blockList.length > 0) {
+    blockedInfo.innerHTML = `<div class="blocked-count">차단된 유저 ${blockList.length}명 · <a onclick="showBlockList()">차단 관리</a></div>`;
+  } else {
+    blockedInfo.innerHTML = '';
+  }
+
   try {
     const posts = await supabase('GET', 'posts', null, '?board=eq.qna&order=is_pinned.desc,created_at.desc');
     if(!posts || posts.length === 0) {
       tbody.innerHTML = '<tr><td colspan="5" class="empty">아직 글이 없어요. 첫 글을 남겨보세요!</td></tr>';
       return;
     }
-    let num = posts.filter(p => !p.is_pinned).length;
-    tbody.innerHTML = posts.map(p => `
-      <tr class="${p.is_pinned ? 'pinned' : ''}" onclick="location.href='./community_view.html?id=${p.id}'">
-        <td class="num">${p.is_pinned ? '📌' : num--}</td>
-        <td><a class="post-link" href="./community_view.html?id=${p.id}">${p.title}</a></td>
-        <td class="author">${p.nickname || p.username}</td>
-        <td class="likes">❤ ${p.likes || 0}</td>
-        <td class="date">${p.created_at.slice(0,10).replace(/-/g,'.')}</td>
-      </tr>
-    `).join('');
+    const filtered = posts.filter(p => !blockList.includes(p.user_id));
+    if(filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="empty">표시할 글이 없어요.</td></tr>';
+      return;
+    }
+    let num = filtered.filter(p => !p.is_pinned).length;
+    tbody.innerHTML = filtered.map(p => {
+      const isMe = user && user.id === p.user_id;
+      const blockBtn = user && !isMe ? `<button class="block-btn" onclick="event.stopPropagation();blockUser('${p.user_id}','${p.nickname||p.username}')">차단</button>` : '';
+      return `
+        <tr class="${p.is_pinned ? 'pinned' : ''}" onclick="location.href='./community_view.html?id=${p.id}'">
+          <td class="num">${p.is_pinned ? '📌' : num--}</td>
+          <td><a class="post-link" href="./community_view.html?id=${p.id}">${p.title}</a></td>
+          <td class="author">${p.nickname || p.username}${blockBtn}</td>
+          <td class="likes">❤ ${p.likes || 0}</td>
+          <td class="date">${p.created_at.slice(0,10).replace(/-/g,'.')}</td>
+        </tr>
+      `;
+    }).join('');
   } catch(e) { tbody.innerHTML = `<tr><td colspan="5" class="empty">불러오기 실패: ${e.message}</td></tr>`; }
 }
 
