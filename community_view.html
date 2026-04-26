@@ -129,6 +129,7 @@ async function loadPost() {
         ${authorIsAdmin ? '<span class="admin-badge">관리자</span>' : ''}
         <span>${currentPost.created_at.slice(0,10).replace(/-/g,'.')}</span>
       </div>
+      ${currentPost.board === 'friend' && currentPost.friend_code ? `<div class="friend-code-box"><span class="friend-code-label">친구코드</span><span class="friend-code-value">${currentPost.friend_code}</span></div>` : ''}
       <div class="post-content">${currentPost.content}</div>
 
       ${isGuild && isOwner ? `
