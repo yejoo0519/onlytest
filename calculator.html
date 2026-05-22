@@ -311,9 +311,15 @@ input[type=number]{-moz-appearance:textfield}
 // ================================================================
 
 
-const IMG_ACC_BASE='이미지/장신구';
-const IMG_PEND_BASE='이미지/펜던트';
-const accImg=(lv,name)=>`${IMG_ACC_BASE}/${lv}/${name}${lv}.png`;
+const TEM_BASE='https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/tem';
+const ACC_IMG_MAP={
+  '20':{'빛뿔':12,'바뿔':13,'악보':20,'황보':21,'여보':22,'대뿔':1433,'물뿔':1435,'불뿔':1437},
+  '19':{'악보':1273,'황보':1274,'여보':1275,'대뿔':1306,'물뿔':1308,'불뿔':1310},
+  '18':{'빛뿔':1209,'악보':1205,'황보':1206,'여보':1207,'바뿔':1202,'대뿔':1247,'물뿔':1249,'불뿔':1251},
+  '17':{'악보':1102,'황보':1103,'여보':1104,'대뿔':1139,'물뿔':1132,'불뿔':1134},
+  '16':{'악보':1046,'황보':1047,'여보':1048,'바뿔':1049,'대뿔':1130,'물뿔':1132,'불뿔':1134},
+};
+const accImg=(lv,name)=>{const n=ACC_IMG_MAP[String(lv)]?.[name];return n?`${TEM_BASE}/${n}.png`:'';}
 
 const IMG_빛뿔18=accImg(18,'빛뿔');
 const IMG_빛뿔20=accImg(20,'빛뿔');
@@ -353,9 +359,9 @@ const IMG_불20=accImg(20,'불뿔');
 const IMG_땅20=accImg(20,'대뿔');
 const IMG_바뿔20=accImg(20,'바뿔');
 const IMG_PEND={
-  태양:`${IMG_PEND_BASE}/태양.png`,
-  달:`${IMG_PEND_BASE}/달.png`,
-  별:`${IMG_PEND_BASE}/별.png`
+  태양:`${TEM_BASE}/1337.png`,
+  달:`${TEM_BASE}/1336.png`,
+  별:`${TEM_BASE}/1335.png`
 };
 
 const ACC_DB=[
