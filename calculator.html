@@ -1,27 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>드래곤빌리지1 비밸 시뮬레이터</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  /* 기본값 (data-theme 미설정 시 다크 테마 적용) */
-  --bg:#0e1116;--bg2:#161a22;--bg3:#1c212c;
-  --border:#23293a;--text:#eaecf2;--text2:#b3b9c7;--text3:#7d8597;--text4:#565d6e;
-  --accent:#7aa2f7;--accent-bg:rgba(122,162,247,0.12);--accent-border:rgba(122,162,247,0.30);
-  /* 이전 변수 → 테마 변수 매핑 */
-  --sf:var(--bg2);--sf2:var(--bg3);--bd:var(--border);
-  --gold:var(--accent);--gold2:var(--accent);
-  --dim:var(--text3);--dimmer:var(--text4);
-  --red:#f87171;--green:#4ade80;--blue:#60a5fa;
-  --hpc:#fbbf24;--atc:#f87171;--dfc:#60a5fa;
-}
-/* ── 테마 팔레트 ── */
-[data-theme="dark"]{--bg:#0e1116;--bg2:#161a22;--bg3:#1c212c;--border:#23293a;--border2:#1b1f2a;--border3:#2d3447;--text:#eaecf2;--text2:#b3b9c7;--text3:#7d8597;--text4:#565d6e;--accent:#7aa2f7;--accent-bg:rgba(122,162,247,0.12);--accent-border:rgba(122,162,247,0.30)}
-[data-theme="light"]{--bg:#f7f7f8;--bg2:#ffffff;--bg3:#f1f2f4;--border:#e6e7ea;--border2:#eeeff2;--border3:#d4d6db;--text:#15171c;--text2:#4a4d57;--text3:#71757f;--text4:#9aa0aa;--accent:#2f6fed;--accent-bg:rgba(47,111,237,0.10);--accent-border:rgba(47,111,237,0.32)}
-[data-theme="beige"]{--bg:#f3ecdd;--bg2:#faf3e2;--bg3:#ebe0c7;--border:#d8caa8;--border2:#e1d4b3;--border3:#c0ad84;--text:#2a2316;--text2:#5a4e34;--text3:#837553;--text4:#a99971;--accent:#b06a1e;--accent-bg:rgba(176,106,30,0.10);--accent-border:rgba(176,106,30,0.32)}
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nanum Gothic',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 .hd{display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--sf);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100}
@@ -136,6 +121,33 @@ input[type=number]{-moz-appearance:textfield}
 @media(max-width:580px){.sim-cfg{grid-template-columns:1fr}.sp-top{grid-template-columns:1fr}.sp-preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sp-preset-btn{white-space:normal}}
 .res-tab-btn{padding:9px 18px;background:none;border:none;border-bottom:3px solid transparent;color:var(--dim);font-family:'Nanum Gothic',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
 .res-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+[data-theme="dark"]{
+  --bg:#0e1116;--bg2:#161a22;--bg3:#1c212c;
+  --border:#23293a;--border2:#1b1f2a;--border3:#2d3447;
+  --text:#eaecf2;--text2:#b3b9c7;--text3:#7d8597;--text4:#565d6e;
+  --accent:#7aa2f7;--accent-bg:rgba(122,162,247,0.12);--accent-border:rgba(122,162,247,0.30);
+}
+[data-theme="light"]{
+  --bg:#f7f7f8;--bg2:#ffffff;--bg3:#f1f2f4;
+  --border:#e6e7ea;--border2:#eeeff2;--border3:#d4d6db;
+  --text:#15171c;--text2:#4a4d57;--text3:#71757f;--text4:#9aa0aa;
+  --accent:#2f6fed;--accent-bg:rgba(47,111,237,0.10);--accent-border:rgba(47,111,237,0.32);
+}
+[data-theme="beige"]{
+  --bg:#f3ecdd;--bg2:#faf3e2;--bg3:#ebe0c7;
+  --border:#d8caa8;--border2:#e1d4b3;--border3:#c0ad84;
+  --text:#2a2316;--text2:#5a4e34;--text3:#837553;--text4:#a99971;
+  --accent:#b06a1e;--accent-bg:rgba(176,106,30,0.10);--accent-border:rgba(176,106,30,0.32);
+}
+/* spec 커스텀 변수 → 테마 변수로 매핑 */
+:root{
+  --sf:var(--bg2);--sf2:var(--bg3);--bd:var(--border);
+  --gold:var(--accent);--gold2:var(--accent);
+  --dim:var(--text3);--dimmer:var(--text4);
+  --red:#f87171;--green:#4ade80;--blue:#60a5fa;
+  --hpc:#fbbf24;--atc:#f87171;--dfc:#60a5fa;
+}
 </style>
 </head>
 <body>
