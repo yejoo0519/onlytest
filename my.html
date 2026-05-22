@@ -417,6 +417,11 @@ async function doLoadCloud(){
       const p=typeof rows[0].spec_data==='string'?JSON.parse(rows[0].spec_data):rows[0].spec_data;
       applySpec(p);
       localStorage.setItem(SPEC_KEY,JSON.stringify(S));
+      // 세 계산기에도 동기화
+      const _sf={accCards:S.accCards||[],gems:S.gems||{},pendants:S.pendants||[],coll:S.coll||{}};
+      ['dv1sim_pvp','dv1sim_noob','dv1sim_calculator'].forEach(k=>{
+        try{const raw=localStorage.getItem(k);const ex=raw?JSON.parse(raw):{};localStorage.setItem(k,JSON.stringify({...ex,..._sf}));}catch(e){}
+      });
       renderAll();
       showToast('클라우드에서 스펙을 불러왔어요!');
     }

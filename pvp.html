@@ -8,6 +8,9 @@
 <script src="./dragon-data.js"></script>
 <style>
 :root{--bg:#0d0f1a;--sf:#141828;--sf2:#1c2240;--bd:#252d50;--gold:#e8b84b;--gold2:#c49a30;--blue:#60a5fa;--red:#f87171;--green:#4ade80;--purple:#c084fc;--orange:#fb923c;--text:#dde2f5;--dim:#7a87b0;--dimmer:#3a4570;--hpc:#fbbf24;--atc:#f87171;--dfc:#60a5fa}
+[data-theme="dark"]{--bg:#0e1116;--bg2:#161a22;--bg3:#1c212c;--border:#23293a;--border2:#1b1f2a;--border3:#2d3447;--text:#eaecf2;--text2:#b3b9c7;--text3:#7d8597;--text4:#565d6e;--accent:#7aa2f7;--accent-bg:rgba(122,162,247,0.12);--accent-border:rgba(122,162,247,0.30)}
+[data-theme="light"]{--bg:#f7f7f8;--bg2:#ffffff;--bg3:#f1f2f4;--border:#e6e7ea;--border2:#eeeff2;--border3:#d4d6db;--text:#15171c;--text2:#4a4d57;--text3:#71757f;--text4:#9aa0aa;--accent:#2f6fed;--accent-bg:rgba(47,111,237,0.10);--accent-border:rgba(47,111,237,0.32)}
+[data-theme="beige"]{--bg:#f3ecdd;--bg2:#faf3e2;--bg3:#ebe0c7;--border:#d8caa8;--border2:#e1d4b3;--border3:#c0ad84;--text:#2a2316;--text2:#5a4e34;--text3:#837553;--text4:#a99971;--accent:#b06a1e;--accent-bg:rgba(176,106,30,0.10);--accent-border:rgba(176,106,30,0.32)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nanum Gothic',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 .hd{display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--sf);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100}
@@ -1138,20 +1141,14 @@ const mkState=()=>({
 let S=mkState();
 let simGrade='9.0', simBuf=2;
 
-const 
-/* ── 내 스펙(my.html) 동기화 ── */
-function loadSpecData() {
-  try {
-    const raw = localStorage.getItem('dv1sim_spec');
-    if (!raw) return null;
-    const p = JSON.parse(raw);
-    return {
-      accCards: p.accCards || [],
-      gems: p.gems || {},
-      pendants: p.pendants || [],
-      coll: p.coll || {},
-    };
-  } catch(e) { return null; }
+const /* ── 내 스펙(my.html) 동기화 ── */
+function loadSpecData(){
+  try{
+    const raw=localStorage.getItem('dv1sim_spec');
+    if(!raw)return null;
+    const p=JSON.parse(raw);
+    return{accCards:p.accCards||[],gems:p.gems||{},pendants:p.pendants||[],coll:p.coll||{}};
+  }catch(e){return null;}
 }
 
 SAVE_KEY='dv1sim_'+location.pathname.split('/').pop().replace(/\.[^.]+$/,'');
@@ -1161,23 +1158,15 @@ function doLoad(){
     const r=localStorage.getItem(SAVE_KEY);
     const spec=loadSpecData();
     const p=r?JSON.parse(r):{};
-    const base={...mkState(),...p,
-      accCards:p.accCards||spec?.accCards||[],
-      gems:{...mkState().gems,...(p.gems||spec?.gems||{})},
-      pendants:p.pendants||spec?.pendants||[],
+    S={...mkState(),...p,
+      accCards:(spec?spec.accCards:null)||p.accCards||[],
+      gems:{...mkState().gems,...(p.gems||{}),...(spec?spec.gems:{})},
+      pendants:(spec?spec.pendants:null)||p.pendants||[],
       spirit:{...mkState().spirit,...(p.spirit||{})},
-      coll:{...mkState().coll,...(p.coll||spec?.coll||{})},
+      coll:{...mkState().coll,...(p.coll||{}),...(spec?spec.coll:{})},
       dragonCards:{...mkDragonCards(),...(p.dragonCards||{})},
       settingBuffs:{...mkSettingBuffs(),...(p.settingBuffs||{})}
     };
-    // 내 스펙이 있으면 장신구/보석/펜던트/컬렉션은 spec 우선 적용
-    if(spec){
-      base.accCards=spec.accCards;
-      base.gems={...mkState().gems,...spec.gems};
-      base.pendants=spec.pendants;
-      base.coll={...mkState().coll,...spec.coll};
-    }
-    S=base;
     while(S.spirit.opts.length<4)S.spirit.opts.push({stat:'',type:''});
     normalizeDragonCards();
   }catch(e){console.error(e);}
@@ -2932,6 +2921,9 @@ function init(){
   populateColl();
 }
 document.addEventListener('DOMContentLoaded',init);
+</script>
+<script>
+(function(){var link=document.getElementById('theme-css');if(!link)return;var sync=function(){var c=document.getElementById('custom-theme-style');if(c&&c.textContent&&c.textContent.length>0){document.documentElement.removeAttribute('data-theme');return;}var m=String(link.href||'').match(/theme-(dark|light|beige)\.css/);document.documentElement.setAttribute('data-theme',m?m[1]:'dark');};sync();new MutationObserver(sync).observe(link,{attributes:true,attributeFilter:['href']});new MutationObserver(sync).observe(document.head,{childList:true,subtree:true,characterData:true});})();
 </script>
 </body>
 </html>

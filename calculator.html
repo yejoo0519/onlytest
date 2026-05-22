@@ -480,6 +480,7 @@ let S=mkState();
 let simGrade='9.0', simBuf=2;
 
 const 
+
 /* ── 내 스펙(my.html) 동기화 ── */
 function loadSpecData(){
   try{
@@ -498,16 +499,11 @@ function doLoad(){
     const spec=loadSpecData();
     const p=r?JSON.parse(r):{};
     S={...mkState(),...p,
-      accCards:p.accCards||spec?.accCards||[],
-      gems:{...mkState().gems,...(p.gems||spec?.gems||{})},
+      accCards:(spec?spec.accCards:null)||p.accCards||[],
+      gems:{...mkState().gems,...(p.gems||{}),...(spec?spec.gems:{})},
       spirit:{...mkState().spirit,...(p.spirit||{})},
-      coll:{...mkState().coll,...(p.coll||spec?.coll||{})}
+      coll:{...mkState().coll,...(p.coll||{}),...(spec?spec.coll:{})}
     };
-    if(spec){
-      S.accCards=spec.accCards;
-      S.gems={...mkState().gems,...spec.gems};
-      S.coll={...mkState().coll,...spec.coll};
-    }
     while(S.spirit.opts.length<4)S.spirit.opts.push({stat:'',type:''});
   }catch(e){console.error(e);}
 }
