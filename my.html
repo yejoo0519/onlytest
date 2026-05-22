@@ -429,6 +429,20 @@ function doSave(){
   localStorage.setItem(SPEC_KEY,JSON.stringify(S));
   const el=document.getElementById('save-msg');
   if(el){el.textContent='✓ 저장됨';setTimeout(()=>el.textContent='',2000);}
+  // 세 계산기에 spec 필드 동기화
+  const specFields = {
+    accCards: S.accCards || [],
+    gems: S.gems || {},
+    pendants: S.pendants || [],
+    coll: S.coll || {},
+  };
+  ['dv1sim_pvp','dv1sim_noob','dv1sim_calculator'].forEach(key => {
+    try {
+      const raw = localStorage.getItem(key);
+      const existing = raw ? JSON.parse(raw) : {};
+      localStorage.setItem(key, JSON.stringify({ ...existing, ...specFields }));
+    } catch(e) {}
+  });
   // 로그인 시 클라우드 저장
   const u=getUser();
   if(u){
