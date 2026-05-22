@@ -8,6 +8,11 @@
 <script src="./dragon-data.js"></script>
 <style>
 :root{
+  /* 기본값 (data-theme 미설정 시 다크 테마 적용) */
+  --bg:#0e1116;--bg2:#161a22;--bg3:#1c212c;
+  --border:#23293a;--text:#eaecf2;--text2:#b3b9c7;--text3:#7d8597;--text4:#565d6e;
+  --accent:#7aa2f7;--accent-bg:rgba(122,162,247,0.12);--accent-border:rgba(122,162,247,0.30);
+  /* 이전 변수 → 테마 변수 매핑 */
   --sf:var(--bg2);--sf2:var(--bg3);--bd:var(--border);
   --gold:var(--accent);--gold2:var(--accent);
   --dim:var(--text3);--dimmer:var(--text4);
