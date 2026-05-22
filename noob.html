@@ -8,6 +8,25 @@
 <script src="./dragon-data.js"></script>
 <style>
 :root{--bg:#0d0f1a;--sf:#141828;--sf2:#1c2240;--bd:#252d50;--gold:#e8b84b;--gold2:#c49a30;--blue:#60a5fa;--red:#f87171;--green:#4ade80;--purple:#c084fc;--orange:#fb923c;--text:#dde2f5;--dim:#7a87b0;--dimmer:#3a4570;--hpc:#fbbf24;--atc:#f87171;--dfc:#60a5fa}
+/* ── 테마 팔레트 (index.html과 동일) ── */
+[data-theme="dark"]{
+  --bg:#0e1116;--bg2:#161a22;--bg3:#1c212c;
+  --border:#23293a;--border2:#1b1f2a;--border3:#2d3447;
+  --text:#eaecf2;--text2:#b3b9c7;--text3:#7d8597;--text4:#565d6e;
+  --accent:#7aa2f7;--accent-bg:rgba(122,162,247,0.12);--accent-border:rgba(122,162,247,0.30);
+}
+[data-theme="light"]{
+  --bg:#f7f7f8;--bg2:#ffffff;--bg3:#f1f2f4;
+  --border:#e6e7ea;--border2:#eeeff2;--border3:#d4d6db;
+  --text:#15171c;--text2:#4a4d57;--text3:#71757f;--text4:#9aa0aa;
+  --accent:#2f6fed;--accent-bg:rgba(47,111,237,0.10);--accent-border:rgba(47,111,237,0.32);
+}
+[data-theme="beige"]{
+  --bg:#f3ecdd;--bg2:#faf3e2;--bg3:#ebe0c7;
+  --border:#d8caa8;--border2:#e1d4b3;--border3:#c0ad84;
+  --text:#2a2316;--text2:#5a4e34;--text3:#837553;--text4:#a99971;
+  --accent:#b06a1e;--accent-bg:rgba(176,106,30,0.10);--accent-border:rgba(176,106,30,0.32);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nanum Gothic',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 .hd{display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--sf);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100}
@@ -820,7 +839,9 @@ const DRAGON_ALLOWED={
   "악몽":["단탈리온","자간","애니마라","루드오어","벨레드","롱기누스","미스핏","마스테마","네무스","크레바스","크로마 벨레드","쉴로시","커스리퍼","진","잠식된 요르문간드","레무레스","발레포르","크로마 발레포르","블라드","디멘션 드래곤"],
 };
 function isAllowedDragon(cat,name){
-  return (DRAGON_ALLOWED[cat]||[]).some(function(n){return n===name;});
+  const strip=n=>String(n||'').replace(/\s*드래곤$/,'').trim();
+  const nameS=strip(name);
+  return (DRAGON_ALLOWED[cat]||[]).some(function(n){return n===name||strip(n)===nameS;});
 }
 function filterDragonDrop(cat,ci,q){
   const drop=document.getElementById("dragon-drop-"+cat+"-"+ci);
@@ -847,7 +868,7 @@ function selectDragonName(cat,ci,name){
   const card=S.dragonCards[cat][ci];
   card.name=name;
   const match=findDragonMatch(name);
-  if(match){card.name=match.name;card.dtype=match.type;}
+  if(match){card.dtype=match.type;}
   syncDragonDupeGroupByName(card.name);
   warnUncheckedDragonDuplicate();
   renderDragonInfo();
@@ -1924,11 +1945,11 @@ function applyDragonNameType(cat,idx){
       card.name='';card.dtype='';
       renderDragonInfo();qSave();return;
     }
-    if(!isAllowedDragon(cat,match.name)){
+    if(!isAllowedDragon(cat,match.name)&&!isAllowedDragon(cat,card.name)){
       card.name='';card.dtype='';
       renderDragonInfo();qSave();return;
     }
-    card.name=match.name;
+    if(!isAllowedDragon(cat,card.name))card.name=match.name;
     card.dtype=match.type;
   } else if(card.name){
     card.name='';card.dtype='';
@@ -2904,6 +2925,22 @@ function init(){
   populateColl();
 }
 document.addEventListener('DOMContentLoaded',init);
+</script>
+<script>
+/* ── data-theme 동기화 (theme.js 연동) ── */
+(function(){
+  var link=document.getElementById('theme-css');
+  if(!link)return;
+  var sync=function(){
+    var c=document.getElementById('custom-theme-style');
+    if(c&&c.textContent&&c.textContent.length>0){document.documentElement.removeAttribute('data-theme');return;}
+    var m=String(link.href||'').match(/theme-(dark|light|beige)\.css/);
+    document.documentElement.setAttribute('data-theme',m?m[1]:'dark');
+  };
+  sync();
+  new MutationObserver(sync).observe(link,{attributes:true,attributeFilter:['href']});
+  new MutationObserver(sync).observe(document.head,{childList:true,subtree:true,characterData:true});
+})();
 </script>
 </body>
 </html>
