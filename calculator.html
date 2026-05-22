@@ -480,17 +480,6 @@ let S=mkState();
 let simGrade='9.0', simBuf=2;
 
 const 
-
-/* ── 내 스펙(my.html) 동기화 ── */
-function loadSpecData(){
-  try{
-    const raw=localStorage.getItem('dv1sim_spec');
-    if(!raw)return null;
-    const p=JSON.parse(raw);
-    return{accCards:p.accCards||[],gems:p.gems||{},pendants:p.pendants||[],coll:p.coll||{}};
-  }catch(e){return null;}
-}
-
 SAVE_KEY='dv1sim_'+location.pathname.split('/').pop().replace(/\.[^.]+$/,'');
 
 function doLoad(){
@@ -499,12 +488,28 @@ function doLoad(){
     const spec=loadSpecData();
     const p=r?JSON.parse(r):{};
     S={...mkState(),...p,
-      accCards:(spec?spec.accCards:null)||p.accCards||[],
-      gems:{...mkState().gems,...(p.gems||{}),...(spec?spec.gems:{})},
+      accCards:p.accCards||spec?.accCards||[],
+      gems:{...mkState().gems,...(p.gems||spec?.gems||{})},
       spirit:{...mkState().spirit,...(p.spirit||{})},
-      coll:{...mkState().coll,...(p.coll||{}),...(spec?spec.coll:{})}
+      coll:{...mkState().coll,...(p.coll||spec?.coll||{})}
     };
+    if(spec){
+      S.accCards=spec.accCards;
+      S.gems={...mkState().gems,...spec.gems};
+      S.coll={...mkState().coll,...spec.coll};
+    }
     while(S.spirit.opts.length<4)S.spirit.opts.push({stat:'',type:''});
+      // ── 내 스펙 자동 적용 ──
+    try{
+      const _sr=localStorage.getItem('dv1sim_spec');
+      if(_sr){
+        const _sp=JSON.parse(_sr);
+        if(_sp.accCards) S.accCards=_sp.accCards;
+        if(_sp.gems) Object.keys(_sp.gems).forEach(k=>{if(S.gems[k])Object.assign(S.gems[k],_sp.gems[k]);});
+        if(_sp.pendants) S.pendants=_sp.pendants;
+        if(_sp.coll) Object.assign(S.coll,_sp.coll);
+      }
+    }catch(_e){}
   }catch(e){console.error(e);}
 }
 
