@@ -863,7 +863,15 @@ function filterDragonDrop(cat,ci,q){
   }
   const kw=(q||"").trim();
   const attrList=DRAGON_ALLOWED[cat]||[];
-  const filtered=kw?attrList.filter(function(n){return n.includes(kw);}):attrList;
+  const kwMatch=kw?findDragonMatch(kw):null;
+  const filtered=kw?attrList.filter(function(n){
+    if(n.includes(kw))return true;
+    if(kwMatch){
+      const stripped=n.replace(/\s*드래곤$/,'').trim();
+      if(normDragonName(stripped)===normDragonName(kwMatch.name))return true;
+    }
+    return false;
+  }):attrList;
   if(!filtered.length){drop.innerHTML="";drop.classList.remove("open");return;}
   drop.innerHTML=filtered.slice(0,30).map(function(n){
     return "<div class=\"acc-drop-item\" onmousedown=\"selectDragonName('"+cat+"',"+ci+",'"+n.replace(/'/g,"\\'")+"\')\">"
@@ -1735,7 +1743,7 @@ function dragonTypeOptions(v){
 }
 
 function normDragonName(name){
-  return String(name||'').replace(/\s+/g,'').toLowerCase();
+  return String(name||'').replace(/ 드래곤$/,'').replace(/\s+/g,'').toLowerCase();
 }
 
 function dragonDbNames(entry){
