@@ -45,6 +45,46 @@ body{font-family:'Malgun Gothic',sans-serif;background:var(--bg);color:var(--tex
 
 /* ── 본문 ── */
 .ti{max-width:700px;margin:0 auto;padding:14px 24px}
+/* ── PC 2열 레이아웃 ── */
+
+/* ── 모바일 하단 탭 바 ── */
+.mobile-bar{display:none}
+@media(max-width:899px){
+  body{padding-bottom:80px}
+  .admin-right{display:none}
+  .admin-right.mob-active{display:block}
+  .admin-left.mob-hidden{display:none}
+  .mobile-bar{
+    display:flex;position:fixed;bottom:0;left:0;right:0;
+    padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 6px);
+    background:color-mix(in srgb,var(--bg) 94%,transparent);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-top:1px solid var(--border);z-index:30
+  }
+  .mobile-bar.hidden{display:none}
+  .mobile-bar button{
+    flex:1;height:48px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:2px;
+    color:var(--dim);font-size:10px;font-weight:500;
+    position:relative;background:none;border:none;cursor:pointer;
+    font-family:'Malgun Gothic',sans-serif
+  }
+  .mobile-bar .glyph{font-size:17px;line-height:1}
+  .mobile-bar button.active{color:var(--gold);font-weight:700}
+  .mobile-bar button.active::after{
+    content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+    width:24px;height:2px;background:var(--gold);border-radius:999px
+  }
+}
+@media(min-width:900px){.mobile-bar{display:none!important}}
+
+@media(min-width:900px){
+  .ti{max-width:100%;padding:14px 28px}
+  .admin-grid{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+  .admin-right{position:sticky;top:68px;max-height:calc(100vh - 80px);overflow-y:auto}
+  .admin-right::-webkit-scrollbar{width:4px}
+  .admin-right::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+}
 
 /* ── 섹션 ── */
 .sec{background:var(--sf);border:1px solid var(--bd);border-radius:8px;margin-bottom:14px;overflow:hidden}
@@ -163,6 +203,17 @@ input::placeholder{color:var(--dimmer)}
 
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .blink{animation:blink 1.8s ease-in-out infinite}
+.sa-bar{background:linear-gradient(90deg,rgba(167,139,250,.15),rgba(122,162,247,.15));border:1px solid rgba(167,139,250,.35);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sa-bar-label{font-size:11px;font-weight:800;color:#a78bfa;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
+.sa-select{background:var(--sf2);border:1px solid rgba(167,139,250,.4);color:var(--text);padding:6px 10px;border-radius:5px;font-family:'Malgun Gothic',sans-serif;font-size:13px;flex:1;min-width:160px}
+.sa-select:focus{outline:none;border-color:#a78bfa}
+/* ── 덱 상세 레이아웃 반응형 ── */
+.deck-grid-pc{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.deck-grid-mob{display:none}
+@media(max-width:899px){
+  .deck-grid-pc{display:none}
+  .deck-grid-mob{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 .empty-msg{color:var(--dimmer);font-style:italic;font-size:13px;text-align:center;padding:12px 0}
 
@@ -178,7 +229,7 @@ input::placeholder{color:var(--dimmer)}
 
 <!-- ── 헤더 ── -->
 <div class="hd">
-  <a href="./my.html" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--text2);text-decoration:none;font-size:16px;flex-shrink:0;transition:all .15s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--text2)'">←</a>
+  <a href="./index.html" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--text2);text-decoration:none;font-size:16px;flex-shrink:0;transition:all .15s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--text2)'">←</a>
   <div class="hd-icon">🛡️</div>
   <div>
     <div class="hd-t">길드 관리</div>
@@ -250,96 +301,128 @@ input::placeholder{color:var(--dimmer)}
   <!-- ── 관리진 메인 뷰 ── -->
   <div id="v-admin" style="display:none">
 
-    <!-- 길드 정보 + 코드 -->
-    <div class="sec">
-      <div class="sec-hd">
-        <span>🏰 길드 정보</span>
-        <span class="badge badge-admin">관리진</span>
-      </div>
-      <div class="sec-bd">
-        <div style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:12px" id="a-guild">—</div>
-        <div style="font-size:11px;color:var(--dim);margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.3px">연동 코드</div>
-        <div class="code-display" id="a-code">—</div>
-        <div style="font-size:11px;color:var(--dim);margin-bottom:10px;text-align:center">이 코드를 길드원들에게 공유하세요</div>
-        <div class="btn-row">
-          <button class="btn-gold" onclick="copyCode()">📋 코드 복사</button>
-          <button class="btn-white" onclick="regenCode()">🔄 코드 재발급</button>
+  <!-- 슈퍼어드민 전용 길드 선택 바 -->
+  <div class="sa-bar" id="sa-bar" style="display:none">
+    <span class="sa-bar-label">👑 전체 길드 보기</span>
+    <select class="sa-select" id="sa-guild-select" onchange="saLoadGuild(this.value)">
+      <option value="">— 길드 선택 —</option>
+    </select>
+    <button class="btn-white" style="font-size:12px;padding:5px 12px;flex-shrink:0" onclick="saRefresh()">🔄</button>
+  </div>
+
+  <div class="admin-grid">
+
+    <!-- ── 왼쪽 열 ── -->
+    <div class="admin-left">
+
+      <!-- 길드 정보 + 코드 -->
+      <div class="sec">
+        <div class="sec-hd">
+          <span>🏰 길드 정보</span>
+          <span class="badge badge-admin">관리진</span>
+        </div>
+        <div class="sec-bd">
+          <div style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:12px" id="a-guild">—</div>
+          <div style="font-size:11px;color:var(--dim);margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.3px">연동 코드</div>
+          <div class="code-display" id="a-code">—</div>
+          <div style="font-size:11px;color:var(--dim);margin-bottom:10px;text-align:center">이 코드를 길드원들에게 공유하세요</div>
+          <div class="btn-row">
+            <button class="btn-gold" onclick="copyCode()">📋 코드 복사</button>
+            <button class="btn-white" onclick="regenCode()">🔄 코드 재발급</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 가입 요청 -->
-    <div class="sec">
-      <div class="sec-hd">
-        <span>📩 가입 요청<span class="notif" id="req-count" style="display:none">0</span></span>
-        <button class="btn-white btn-sm" onclick="loadPending()">새로고침</button>
-      </div>
-      <div class="sec-bd" id="pending-bd">
-        <div class="empty-msg">대기 중인 요청이 없습니다.</div>
-      </div>
-    </div>
-
-    <!-- 길드원 목록 -->
-    <div class="sec">
-      <div class="sec-hd">
-        <span>👥 길드원 목록</span>
-        <span id="member-count" style="font-size:11px;color:var(--dim)"></span>
-      </div>
-      <div class="sec-bd" id="member-bd">
-        <div class="empty-msg">길드원이 없습니다.</div>
-      </div>
-    </div>
-
-    <!-- 이번 주 순위 -->
-    <div class="sec">
-      <div class="sec-hd">
-        <span>📊 이번 주 순위</span>
-        <div style="display:flex;align-items:center;gap:10px">
-          <label class="buff-sw">
-            <input type="checkbox" id="buff-toggle" onchange="setBuff(this.checked)">
-            <span class="buff-track"><span class="buff-knob"></span></span>
-            <span class="buff-sw-lbl" id="buff-sw-lbl">버프 제외</span>
-          </label>
-          <button class="btn-white btn-sm" onclick="exportExcel()">📥 엑셀</button>
+      <!-- 가입 요청 -->
+      <div class="sec">
+        <div class="sec-hd">
+          <span>📩 가입 요청<span class="notif" id="req-count" style="display:none">0</span></span>
+          <button class="btn-white btn-sm" onclick="loadPending()">새로고침</button>
+        </div>
+        <div class="sec-bd" id="pending-bd">
+          <div class="empty-msg">대기 중인 요청이 없습니다.</div>
         </div>
       </div>
-      <div class="sec-bd" style="padding:0" id="rank-bd">
-        <div class="empty-msg" style="padding:16px">순위 정보가 없습니다.</div>
-      </div>
-    </div>
 
-    <!-- 이번 회차 관리 -->
-    <div class="sec">
-      <div class="sec-hd">
-        <span>📅 회차 관리</span>
-        <span id="season-label-badge" style="font-size:11px;color:var(--dim)"></span>
-      </div>
-      <div class="sec-bd" id="season-mgmt-bd">
-        <div class="empty-msg blink">회차 정보 로딩 중...</div>
-      </div>
-    </div>
-
-    <!-- 지난 회차 -->
-    <div class="sec">
-      <div class="sec-hd">
-        <span>🗂 지난 회차</span>
-      </div>
-      <div class="sec-bd">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-          <select class="season-select" id="past-select" onchange="loadPastRanking(this.value)" style="flex:1">
-            <option value="">— 회차 선택 —</option>
-          </select>
-          <button class="btn-white btn-sm" onclick="exportPastExcel()">📥 엑셀</button>
+      <!-- 길드원 목록 -->
+      <div class="sec">
+        <div class="sec-hd" onclick="toggleSec('member-bd','member-arrow')" style="cursor:pointer;user-select:none">
+          <span>👥 길드원 목록 <span id="member-count" style="font-size:11px;color:var(--dim);font-weight:400;letter-spacing:0"></span></span>
+          <span id="member-arrow" style="font-size:11px;color:var(--dim)">▲</span>
         </div>
-        <div id="past-rank-bd">
-          <div class="empty-msg">회차를 선택해주세요.</div>
+        <div class="sec-bd" id="member-bd">
+          <div class="empty-msg">길드원이 없습니다.</div>
         </div>
       </div>
-    </div>
 
+      <!-- 이번 회차 관리 -->
+      <div class="sec">
+        <div class="sec-hd" onclick="toggleSec('season-mgmt-bd','season-arrow')" style="cursor:pointer;user-select:none">
+          <span>📅 회차 관리 <span id="season-label-badge" style="font-size:11px;color:var(--dim);font-weight:400;letter-spacing:0"></span></span>
+          <span id="season-arrow" style="font-size:11px;color:var(--dim)">▼</span>
+        </div>
+        <div class="sec-bd" id="season-mgmt-bd" style="display:none">
+          <div class="empty-msg blink">회차 정보 로딩 중...</div>
+        </div>
+      </div>
+
+      <!-- 지난 회차 -->
+      <div class="sec">
+        <div class="sec-hd">
+          <span>🗂 지난 회차</span>
+        </div>
+        <div class="sec-bd">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+            <select class="season-select" id="past-select" onchange="loadPastRanking(this.value)" style="flex:1">
+              <option value="">— 회차 선택 —</option>
+            </select>
+            <button class="btn-white btn-sm" onclick="exportPastExcel()">📥 엑셀</button>
+          </div>
+          <div id="past-rank-bd">
+            <div class="empty-msg">회차를 선택해주세요.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-left -->
+
+    <!-- ── 오른쪽 열: 순위 ── -->
+    <div class="admin-right">
+      <div class="sec">
+        <div class="sec-hd">
+          <span>📊 이번 주 순위</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <label class="buff-sw">
+              <input type="checkbox" id="buff-toggle" onchange="setBuff(this.checked)">
+              <span class="buff-track"><span class="buff-knob"></span></span>
+              <span class="buff-sw-lbl" id="buff-sw-lbl">버프 제외</span>
+            </label>
+            <button class="btn-white btn-sm" onclick="exportExcel()">📥 엑셀</button>
+          </div>
+        </div>
+        <div class="sec-bd" style="padding:0" id="rank-bd">
+          <div class="empty-msg" style="padding:16px">순위 정보가 없습니다.</div>
+        </div>
+      </div>
+    </div><!-- /admin-right -->
+
+  </div><!-- /admin-grid -->
   </div><!-- /v-admin -->
 
 </div><!-- /ti -->
+
+
+<!-- ── 모바일 하단 탭 바 ── -->
+<div class="mobile-bar hidden" id="mobile-bar">
+  <button class="active" onclick="switchMobTab('left',this)">
+    <span class="glyph">🛡️</span>
+    <span>관리</span>
+  </button>
+  <button onclick="switchMobTab('right',this)">
+    <span class="glyph">📊</span>
+    <span>순위</span>
+  </button>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -475,6 +558,7 @@ async function loadAdminView(){
 
   showV('admin');
   startReqPoll();
+  await initSuperAdmin();
 }
 
 // ── 코드 로드 ─────────────────────────────────────────────────
@@ -758,38 +842,41 @@ function renderDeckDetail(data){
   const PSHORT={'달':'달펜','태양':'태양펜','별':'별펜'};
   const IBASE='https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon';
 
-  const cards=data.deck.map(r=>{
+  // ── 공통 데이터 계산 ──────────────────────────────────────────
+  const parsed=data.deck.map(r=>{
     const dc=DCOL[r.dragon?.dtype]||'#888';
     const attrN=ATTR_N[r.dragon?.attr]||11;
-    // 정령
     const spParts=(r.dragon?.opts||[]).map((o,i)=>{
       if(!o||!o.stat||!o.type)return null;
       const val=o.type==='+'?SP_PLUS[o.stat]?.[i+1]:SP_PCT[i+1];
       if(!val)return null;
-      return `<span style="color:${SKCOL[o.stat]}">${SK[o.stat]}${o.type==='+'?'+':''}${val}${o.type==='%'?'%':''}</span>`;
+      return {col:SKCOL[o.stat],txt:`${SK[o.stat]}${o.type==='+'?'+':''}${val}${o.type==='%'?'%':''}`};
     }).filter(Boolean);
-    if(r.dragon?.bonus) spParts.push(`<span style="color:${SKCOL[r.dragon.bonus]}">★${SK[r.dragon.bonus]}+${SP_BONUS[r.dragon.bonus]||0}</span>`);
-    // 젬
+    if(r.dragon?.bonus) spParts.push({col:SKCOL[r.dragon.bonus],txt:`★${SK[r.dragon.bonus]}+${SP_BONUS[r.dragon.bonus]||0}`});
     const gemParts=[];
     if(r.gemAlloc?.length){
       const bySt={hp:[],atk:[],def:[]};
       r.gemAlloc.forEach(({k,g})=>{for(let i=0;i<k;i++)bySt[g.s].push(g.lv);});
-      for(const s of ['hp','atk','def']){const lvs=(bySt[s]||[]).sort((a,b)=>b-a);if(lvs.length)gemParts.push(`<span style="color:${SKCOL[s]}">${SK[s]}${lvs.length}(${lvs.join(',')})</span>`);}
+      for(const s of ['hp','atk','def']){const lvs=(bySt[s]||[]).sort((a,b)=>b-a);if(lvs.length)gemParts.push({col:SKCOL[s],txt:`${SK[s]}${lvs.length}(${lvs.join(',')})`});}
     }
-    // 펜던트
     let pendStr='<span style="color:var(--dimmer)">없음</span>';
     if(r.pend){
       const mo=r.pend.type==='태양'?3:r.pend.type==='달'?2:1;
       const po=(r.pend.options||[]).slice(0,mo).filter(o=>o?.stat).map(o=>`<span style="color:${SKCOL[o.stat]}">${SK[o.stat]}${o.val||0}%</span>`).join('<span style="color:var(--dim)">/</span>');
       pendStr=`<span style="color:var(--text2)">${PSHORT[r.pend.type]||r.pend.type}</span> <small style="color:var(--dim)">(${po})</small>`;
     }
-    // 인챈트
     const encStr=r.enc&&r.enc!=='없음'?`<span style="font-size:10px;padding:1px 5px;border-radius:3px;border:1px solid ${ENC_COL[r.enc]||'var(--bd)'};color:${ENC_COL[r.enc]||'var(--dim)'}">${r.enc}</span>`:'';
-    const nH=(r.fH||0)-(r.bufH||0), nA=(r.fA||0)-(r.bufA||0), nD=(r.fD||0)-(r.bufD||0);
+    const nH=(r.fH||0)-(r.bufH||0),nA=(r.fA||0)-(r.bufA||0),nD=(r.fD||0)-(r.bufD||0);
     const nBV=nH*nA*nD;
     const hasBuf=(r.bufH||0)+(r.bufA||0)+(r.bufD||0)>0;
+    const spHtml=(sz)=>spParts.length?spParts.map(p=>`<span style="color:${p.col};font-size:${sz}">${p.txt}</span>`).join(' '):'<span style="color:var(--dimmer)">—</span>';
+    const gemHtml=(sz)=>gemParts.length?gemParts.map(p=>`<span style="color:${p.col};font-size:${sz}">${p.txt}</span>`).join(' '):'<span style="color:var(--dimmer)">—</span>';
+    return {r,dc,attrN,spHtml,gemHtml,pendStr,encStr,nBV,hasBuf};
+  });
 
-    return `<div style="background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:12px;flex:1;min-width:190px;max-width:340px">
+  // ── PC 카드 (기존 크기) ───────────────────────────────────────
+  const pcCards=parsed.map(({r,dc,attrN,spHtml,gemHtml,pendStr,encStr,nBV,hasBuf})=>`
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:12px;min-width:210px;max-width:210px;flex-shrink:0">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--bd)">
         ${r.dragonImg?`<img src="${r.dragonImg}" style="width:44px;height:44px;object-fit:contain;border-radius:6px;border:1px solid var(--bd);background:var(--sf2);flex-shrink:0" onerror="this.style.display='none'">`:
           `<div style="width:44px;height:44px;border-radius:6px;background:var(--sf2);border:1px solid var(--bd);flex-shrink:0"></div>`}
@@ -804,7 +891,7 @@ function renderDeckDetail(data){
       </div>
       <div style="margin-bottom:8px">
         <div style="font-size:10px;font-weight:800;color:var(--dim);margin-bottom:4px">✨ 정령</div>
-        <div style="font-size:11px;line-height:1.9">${spParts.length?spParts.join(' '):'<span style="color:var(--dimmer)">—</span>'}</div>
+        <div style="font-size:11px;line-height:1.9">${spHtml('11px')}</div>
       </div>
       <div style="margin-bottom:8px;padding-top:8px;border-top:1px solid var(--bd)">
         <div style="font-size:10px;font-weight:800;color:var(--dim);margin-bottom:6px">💍 장신구</div>
@@ -815,7 +902,7 @@ function renderDeckDetail(data){
       </div>
       <div style="margin-bottom:8px;padding-top:8px;border-top:1px solid var(--bd)">
         <div style="font-size:10px;font-weight:800;color:var(--dim);margin-bottom:4px">💎 젬</div>
-        <div style="font-size:11px">${gemParts.length?gemParts.join(' '):'<span style="color:var(--dimmer)">—</span>'}</div>
+        <div style="font-size:11px">${gemHtml('11px')}</div>
       </div>
       <div style="margin-bottom:10px;padding-top:8px;border-top:1px solid var(--bd)">
         <div style="font-size:10px;font-weight:800;color:var(--dim);margin-bottom:4px">🌙 펜던트</div>
@@ -833,11 +920,60 @@ function renderDeckDetail(data){
           ${hasBuf?`<div><div style="font-size:10px;color:var(--dim)">버프제외</div><span style="font-family:'Courier New',monospace;font-size:13px;font-weight:800;color:var(--text2)">${(nBV/1e6).toFixed(1)}</span><span style="font-size:10px;color:var(--dim)">억</span></div>`:''}
         </div>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
+
+  // ── 모바일 카드 (컴팩트 3열) ──────────────────────────────────
+  const mobCards=parsed.map(({r,dc,attrN,spHtml,gemHtml,pendStr,encStr,nBV,hasBuf})=>`
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px;min-width:0;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--bd)">
+        ${r.dragonImg?`<img src="${r.dragonImg}" style="width:32px;height:32px;object-fit:contain;border-radius:4px;border:1px solid var(--bd);background:var(--sf2);flex-shrink:0" onerror="this.style.display='none'">`:
+          `<div style="width:32px;height:32px;border-radius:4px;background:var(--sf2);border:1px solid var(--bd);flex-shrink:0"></div>`}
+        <div style="min-width:0;flex:1">
+          <div style="font-weight:800;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3">${x(r.dragon?.name||'—')}</div>
+          <div style="display:flex;align-items:center;gap:2px;margin-top:2px">
+            <img src="${IBASE}/${attrN}.png" style="width:11px;height:11px;object-fit:contain;flex-shrink:0">
+            <span style="font-size:8px;padding:1px 3px;border-radius:2px;border:1px solid ${dc};color:${dc};white-space:nowrap">${r.dragon?.dtype||''}</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-bottom:5px">
+        <div style="font-size:8px;color:var(--dim);margin-bottom:2px;font-weight:700">✨ 정령</div>
+        <div style="font-size:8px;line-height:1.7;word-break:break-all">${spHtml('8px')}</div>
+      </div>
+      <div style="margin-bottom:5px;padding-top:5px;border-top:1px solid var(--bd)">
+        <div style="font-size:8px;color:var(--dim);margin-bottom:3px;font-weight:700">💍 장신구</div>
+        <div style="display:flex;align-items:center;gap:3px">
+          ${r.accImg?`<img src="${r.accImg}" style="width:18px;height:18px;object-fit:contain;border-radius:2px;flex-shrink:0">`:''}
+          <div style="min-width:0">
+            <div style="font-size:9px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x(r.accName||'없음')}</div>
+            ${encStr?`<div style="margin-top:1px">${encStr}</div>`:''}
+          </div>
+        </div>
+      </div>
+      <div style="margin-bottom:4px;padding-top:4px;border-top:1px solid var(--bd)">
+        <div style="font-size:8px;color:var(--dim);margin-bottom:2px;font-weight:700">💎 젬</div>
+        <div style="font-size:8px;word-break:break-all">${gemHtml('8px')}</div>
+      </div>
+      <div style="margin-bottom:5px;padding-top:4px;border-top:1px solid var(--bd)">
+        <div style="font-size:8px;color:var(--dim);margin-bottom:2px;font-weight:700">🌙 펜던트</div>
+        <div style="font-size:8px">${pendStr}</div>
+      </div>
+      <div style="padding-top:5px;border-top:1px solid var(--bd)">
+        <div style="font-size:8px;font-family:'Courier New',monospace;line-height:1.7;color:var(--text2)">
+          <span style="color:#fbbf24">체</span> ${(r.fH||0).toLocaleString('ko-KR')}${r.bufH?` <span style="color:var(--dim);font-size:7px">(+${r.bufH.toLocaleString('ko-KR')})</span>`:''}
+          <br><span style="color:#f87171">공</span> ${(r.fA||0).toLocaleString('ko-KR')}${r.bufA?` <span style="color:var(--dim);font-size:7px">(+${r.bufA.toLocaleString('ko-KR')})</span>`:''}
+          <br><span style="color:#60a5fa">방</span> ${(r.fD||0).toLocaleString('ko-KR')}${r.bufD?` <span style="color:var(--dim);font-size:7px">(+${r.bufD.toLocaleString('ko-KR')})</span>`:''}
+        </div>
+        <div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap;align-items:baseline">
+          <span style="font-family:'Courier New',monospace;font-size:11px;font-weight:800;color:var(--gold)">${((r.bv||0)/1e6).toFixed(1)}<span style="font-size:8px;color:var(--dim)">억</span></span>
+          ${hasBuf?`<span style="font-size:8px;color:var(--dim)">(제외 ${(nBV/1e6).toFixed(1)}억)</span>`:''}
+        </div>
+      </div>
+    </div>`).join('');
 
   return `<div style="padding:14px 16px;background:var(--sf2);border-top:2px solid var(--gold)">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start">${cards}</div>
+    <div class="deck-grid-pc">${pcCards}</div>
+    <div class="deck-grid-mob">${mobCards}</div>
   </div>`;
 }
 
@@ -952,11 +1088,81 @@ function startReqPoll(){
 }
 
 // ── 유틸 ──────────────────────────────────────────────────────
+// ── 슈퍼어드민 기능 ───────────────────────────────────────────
+async function initSuperAdmin(){
+  if(!gUser||!gUser.is_admin)return;
+  const bar=document.getElementById('sa-bar');
+  if(bar)bar.style.display='flex';
+  await saLoadGuildList();
+}
+
+async function saLoadGuildList(){
+  const sel=document.getElementById('sa-guild-select');
+  if(!sel)return;
+  try{
+    const guilds=await supabase('GET','guilds',null,'?order=created_at.desc&select=id,name');
+    sel.innerHTML='<option value="">— 길드 선택 —</option>';
+    (guilds||[]).forEach(g=>{
+      const opt=document.createElement('option');
+      opt.value=g.id; opt.textContent=g.name;
+      if(g.id===gGuildId)opt.selected=true;
+      sel.appendChild(opt);
+    });
+  }catch(e){console.error('길드 목록 로드 오류:',e);}
+}
+
+async function saLoadGuild(guildId){
+  if(!guildId)return;
+  // 선택한 길드로 전환
+  try{
+    const guilds=await supabase('GET','guilds',null,`?id=eq.${guildId}&select=id,name&limit=1`);
+    if(!guilds||!guilds.length)return;
+    gGuildId=guilds[0].id;
+    gGuildName=guilds[0].name;
+    document.getElementById('a-guild').textContent=gGuildName;
+    // 데이터 새로고침
+    await Promise.all([loadCode(),loadPending(),loadMembers(),checkAndRotateSeason(),loadRankings(),loadPastSeasons()]);
+    toast(`${gGuildName} 길드로 전환했어요.`);
+  }catch(e){alert('길드 전환 오류: '+(e.message||e));}
+}
+
+async function saRefresh(){
+  await saLoadGuildList();
+  toast('길드 목록을 새로고침했어요.');
+}
+
+// ── 모바일 탭 전환 ────────────────────────────────────────────
+function switchMobTab(tab,btn){
+  if(window.innerWidth>=900)return;
+  document.querySelectorAll('.mobile-bar button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const left=document.querySelector('.admin-left');
+  const right=document.querySelector('.admin-right');
+  if(!left||!right)return;
+  if(tab==='left'){
+    left.classList.remove('mob-hidden');
+    right.classList.remove('mob-active');
+  }else{
+    left.classList.add('mob-hidden');
+    right.classList.add('mob-active');
+  }
+}
+
+function toggleSec(bdId,arrowId){
+  const bd=document.getElementById(bdId);
+  const arrow=document.getElementById(arrowId);
+  if(!bd)return;
+  const open=bd.style.display==='none';
+  bd.style.display=open?'':'none';
+  if(arrow)arrow.textContent=open?'▲':'▼';
+}
 function showV(name){
   ['loading','noauth','notadmin','create','admin'].forEach(v=>{
     const el=document.getElementById('v-'+v);
     if(el) el.style.display=v===name?'':'none';
   });
+  const mb=document.getElementById('mobile-bar');
+  if(mb) mb.classList.toggle('hidden', name!=='admin');
 }
 
 function genCode(){
