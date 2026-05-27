@@ -3119,7 +3119,19 @@ async function afterSimComplete(results){
     if(!seasons||!seasons.length)return;
     const season=seasons[0];
 
-    _guildResult={statWithBuff,statNoBuff,member,season};
+    // settingsJson 빌드 (드래곤 이미지/장신구 이미지 포함)
+    const settingsJson={deck:top3.map(r=>({
+      dragon:{name:r.dragon.name,attr:r.dragon.attr,dtype:r.dragon.dtype,opts:r.dragon.opts||[],bonus:r.dragon.bonus||null},
+      dragonImg:getDragonImgUrl(r.dragon.name),
+      accName:r.accN,
+      accImg:(()=>{const a=ACC_DB.find(x=>x.n===r.accN);return a&&a.img?a.img:null;})(),
+      enc:r.enc,
+      pend:r.pend,
+      gemAlloc:r.alloc,
+      fH:r.fH,fA:r.fA,fD:r.fD,bv:r.bv,
+      bufH:r._calc?.bufH||0,bufA:r._calc?.bufA||0,bufD:r._calc?.bufD||0
+    }))};
+    _guildResult={statWithBuff,statNoBuff,member,season,settingsJson};
 
     // 이미 전송했는지 확인
     const exist=await supabase('GET','guild_weekly_settings',null,
@@ -3159,6 +3171,7 @@ async function sendToGuild(){
       await supabase('PATCH','guild_weekly_settings',{
         stat_no_buff:statNoBuff,
         stat_with_buff:statWithBuff,
+        settings_json:_guildResult.settingsJson||null,
         submitted_at:new Date().toISOString()
       },`?id=eq.${exist[0].id}`);
     }else{
@@ -3169,6 +3182,7 @@ async function sendToGuild(){
         nickname:member.nickname,
         stat_no_buff:statNoBuff,
         stat_with_buff:statWithBuff,
+        settings_json:_guildResult.settingsJson||null,
         submitted_at:new Date().toISOString()
       });
     }
