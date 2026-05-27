@@ -517,17 +517,13 @@
             </div>
           </a>
         </div>
-        <div class="h-section" style="margin-bottom:12px">회원 목록</div>
-        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-          <input id="admin-search" type="text" placeholder="닉네임·아이디 검색"
-            style="flex:1;min-width:160px;padding:7px 12px;background:var(--bg3);border:1px solid var(--border3);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit"
-            oninput="adminSearch()">
-          <button onclick="loadAdminMembers()" style="padding:7px 14px;background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent);border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit">새로고침</button>
-        </div>
-        <div id="admin-member-list" style="display:flex;flex-direction:column;gap:6px">
-          <div style="color:var(--text4);font-size:13px;text-align:center;padding:20px">어드민 탭을 클릭하면 로드됩니다.</div>
-        </div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap" id="admin-pagination"></div>
+          <a href="./admin_users.html" class="card">
+            <span class="icon-tile rose">회원</span>
+            <div class="card-body">
+              <div class="card-title">회원 관리</div>
+              <div class="card-desc">전체 회원 목록 · 계정 정지 · 검색</div>
+            </div>
+          </a>
       </section>
 
     </main>
