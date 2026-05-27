@@ -81,7 +81,7 @@ async function login() {
     });
     msg.className='msg success'; msg.textContent='로그인 성공!';
     const params = new URLSearchParams(location.search);
-    const redirectTo = params.get('from') || './community.html';
+    const redirectTo = params.get('from') || './index.html';
     setTimeout(() => location.href=redirectTo, 800);
   } catch(e) {
     msg.className='msg error'; msg.textContent='오류: ' + e.message;
