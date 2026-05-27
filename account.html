@@ -182,7 +182,7 @@ function switchTab(id, btn){
 // ── 아이디 찾기 ───────────────────────────────────────────────
 async function findId(){
   const nick  = (document.getElementById('fi-nick').value||'').trim();
-  const code  = (document.getElementById('fi-code').value||'').trim().toLowerCase();
+  const code  = (document.getElementById('fi-code').value||'').trim();
   const msg   = document.getElementById('fi-msg');
   const res   = document.getElementById('fi-result');
   const btn   = document.getElementById('fi-btn');
@@ -190,21 +190,23 @@ async function findId(){
 
   if(!nick){ showMsg(msg,'error','닉네임을 입력해주세요.'); return; }
   if(!code){ showMsg(msg,'error','친구코드를 입력해주세요.'); return; }
-  if(!/^k[a-z0-9]{6}$/.test(code)){ showMsg(msg,'error','친구코드 형식이 올바르지 않아요. (K + 6자리)'); return; }
+  if(code.length!==7){ showMsg(msg,'error','친구코드는 7자리예요. (K + 6자리)'); return; }
 
   btn.disabled=true; btn.textContent='조회 중...';
   try{
+    // ilike: 대소문자 무관 비교
     const rows = await supabase('GET','users',null,
-      `?nickname=eq.${encodeURIComponent(nick)}&friend_code=eq.${encodeURIComponent(code)}&select=username&limit=1`);
+      `?nickname=eq.${encodeURIComponent(nick)}&friend_code=ilike.${encodeURIComponent(code)}&select=id,username&limit=1`);
     if(!rows||!rows.length){
-      showMsg(msg,'error','일치하는 계정을 찾을 수 없어요.\n닉네임과 친구코드를 다시 확인해주세요.'); return;
+      showMsg(msg,'error','일치하는 계정을 찾을 수 없어요. 닉네임과 친구코드를 다시 확인해주세요.'); return;
     }
     const username = rows[0].username;
     document.getElementById('fi-result-val').textContent = maskId(username);
     res.classList.add('show');
     showMsg(msg,'success','아이디를 찾았어요!');
   }catch(e){
-    showMsg(msg,'error','오류가 발생했어요. 다시 시도해주세요.');
+    console.error(e);
+    showMsg(msg,'error','오류: '+(e.message||'다시 시도해주세요.'));
   }finally{
     btn.disabled=false; btn.textContent='아이디 찾기';
   }
@@ -213,7 +215,7 @@ async function findId(){
 // ── 비밀번호 변경 ─────────────────────────────────────────────
 async function changePw(){
   const username = (document.getElementById('fp-user').value||'').trim();
-  const code     = (document.getElementById('fp-code').value||'').trim().toLowerCase();
+  const code     = (document.getElementById('fp-code').value||'').trim();
   const pw1      = document.getElementById('fp-pw1').value;
   const pw2      = document.getElementById('fp-pw2').value;
   const msg      = document.getElementById('fp-msg');
@@ -222,7 +224,7 @@ async function changePw(){
 
   if(!username){ showMsg(msg,'error','아이디를 입력해주세요.'); return; }
   if(!code){ showMsg(msg,'error','친구코드를 입력해주세요.'); return; }
-  if(!/^k[a-z0-9]{6}$/.test(code)){ showMsg(msg,'error','친구코드 형식이 올바르지 않아요.'); return; }
+  if(code.length!==7){ showMsg(msg,'error','친구코드는 7자리예요. (K + 6자리)'); return; }
   if(!pw1){ showMsg(msg,'error','새 비밀번호를 입력해주세요.'); return; }
   if(pw1.length<4){ showMsg(msg,'error','비밀번호는 4자 이상이어야 해요.'); return; }
   if(pw1!==pw2){ showMsg(msg,'error','비밀번호가 일치하지 않아요.'); return; }
@@ -231,7 +233,7 @@ async function changePw(){
   try{
     // 계정 확인
     const rows = await supabase('GET','users',null,
-      `?username=eq.${encodeURIComponent(username)}&friend_code=eq.${encodeURIComponent(code)}&select=id&limit=1`);
+      `?username=eq.${encodeURIComponent(username)}&friend_code=ilike.${encodeURIComponent(code)}&select=id&limit=1`);
     if(!rows||!rows.length){
       showMsg(msg,'error','아이디 또는 친구코드가 일치하지 않아요.'); return;
     }
@@ -244,7 +246,8 @@ async function changePw(){
     document.getElementById('fp-pw1').value='';
     document.getElementById('fp-pw2').value='';
   }catch(e){
-    showMsg(msg,'error','오류가 발생했어요. 다시 시도해주세요.');
+    console.error(e);
+    showMsg(msg,'error','오류: '+(e.message||'다시 시도해주세요.'));
   }finally{
     btn.disabled=false; btn.textContent='비밀번호 변경';
   }
